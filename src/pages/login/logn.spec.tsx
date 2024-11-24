@@ -8,13 +8,13 @@ describe('Login Page', () => {
         render(<Login />);
 
         // Act
-        const button = screen.getByRole('button', { name: 'Signin' });
-        const username = screen.getByPlaceholderText('Username');
-        const password = screen.getByPlaceholderText('Username');
-        const checkbox = screen.getByRole('checkbox', { name: 'Remember me' });
+        const button = screen.getByRole('button', { name: /Log in/ });
+        const username = screen.getByPlaceholderText(/Email/);
+        const password = screen.getByPlaceholderText(/Password/);
+        const checkbox = screen.getByRole('checkbox', { name: /Remember me/ });
         const forgotPassword = screen.getByText('Forgot password');
         // Assert
-        expect(screen.getByText(/Login/)).toBeInTheDocument();
+        expect(screen.getByText(/Sign in/)).toBeInTheDocument();
         expect(username).toBeInTheDocument();
         expect(password).toBeInTheDocument();
         expect(button).toBeInTheDocument();
