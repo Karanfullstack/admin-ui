@@ -1,78 +1,125 @@
-import { Button, Card, Checkbox, Flex, Form, Input, Layout, Space } from 'antd';
 import { LockFilled, LockOutlined, UserOutlined } from '@ant-design/icons';
+import { useMutation } from '@tanstack/react-query';
+import {
+    Alert,
+    Button,
+    Card,
+    Checkbox,
+    Flex,
+    Form,
+    FormProps,
+    Input,
+    Layout,
+    Space,
+} from 'antd';
 import Logo from '../../icons/Logo';
+import { login } from '../../services/http-service';
+import { LoginType } from '../../types';
 
-const Login = () => (
-    <Layout className="h-screen grid place-items-center">
-        <Space direction="vertical" align="center" size={'large'}>
-            <Layout.Content>
-                <Logo />
-            </Layout.Content>
-            <Card
-                title={
-                    <Space className=" w-full justify-center">
-                        <LockFilled />
-                        Sign in
-                    </Space>
-                }
-                bordered={false}
-                className=" w-[320px]"
-            >
-                <Form
-                    initialValues={{
-                        remember: true,
-                        email: 'karan@gmail.com',
-                        password: 'secrets',
-                    }}
+const loginUser = async (credentials: LoginType) => {
+    const { data } = await login(credentials);
+    return data;
+};
+
+const Login = () => {
+    const { mutate, isPending, isError, error } = useMutation({
+        mutationKey: ['login'],
+        mutationFn: loginUser,
+        onSuccess: (data) => {
+            console.log(data);
+        },
+    });
+
+    const onFinish: FormProps<LoginType>['onFinish'] = (values) => {
+        mutate({ email: values.email, password: values.password });
+    };
+
+    return (
+        <Layout className="h-screen grid place-items-center">
+            <Space direction="vertical" align="center" size={'large'}>
+                <Layout.Content>
+                    <Logo />
+                </Layout.Content>
+                <Card
+                    title={
+                        <Space className=" w-full justify-center">
+                            <LockFilled />
+                            Sign in
+                        </Space>
+                    }
+                    bordered={false}
+                    className=" w-[320px]"
                 >
-                    <Form.Item
-                        name={'email'}
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input you email',
-                            },
-                            {
-                                type: 'email',
-                                message: 'Email is not valid',
-                            },
-                        ]}
+                    <Form
+                        initialValues={{
+                            remember: true,
+                            email: 'karan@gmail.com',
+                            password: 'secrets',
+                        }}
+                        onFinish={onFinish}
                     >
-                        <Input prefix={<UserOutlined />} placeholder="Email"></Input>
-                    </Form.Item>
-                    <Form.Item
-                        name={'password'}
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Enter your password',
-                            },
-                        ]}
-                    >
-                        <Input.Password
-                            prefix={<LockOutlined />}
-                            placeholder="Password"
-                        ></Input.Password>
-                    </Form.Item>
-
-                    <Flex className="">
-                        <Form.Item name={'remember'} valuePropName="checked">
-                            <Checkbox>Remember me</Checkbox>
+                        {isError && (
+                            <Alert
+                                className="mb-5"
+                                message={error.message}
+                                type="error"
+                                showIcon
+                            />
+                        )}
+                        <Form.Item<LoginType>
+                            name="email"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input you email',
+                                },
+                                {
+                                    type: 'email',
+                                    message: 'Email is not valid',
+                                },
+                            ]}
+                        >
+                            <Input prefix={<UserOutlined />} placeholder="Email"></Input>
                         </Form.Item>
-                        <a href="" className=" p-1 h-0">
-                            Forgot password
-                        </a>
-                    </Flex>
+                        <Form.Item<LoginType>
+                            name="password"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Enter your password',
+                                },
+                            ]}
+                        >
+                            <Input.Password
+                                prefix={<LockOutlined />}
+                                placeholder="Password"
+                            ></Input.Password>
+                        </Form.Item>
 
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit" className="w-full">
-                            Log in
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </Card>
-        </Space>
-    </Layout>
-);
+                        <Flex className="">
+                            <Form.Item name="remember" valuePropName="checked">
+                                <Checkbox>Remember me</Checkbox>
+                            </Form.Item>
+                            <a href="" className=" p-1 h-0">
+                                Forgot password
+                            </a>
+                        </Flex>
+
+                        <Form.Item>
+                            <Button
+                                loading={isPending}
+                                type="primary"
+                                htmlType="submit"
+                                className="w-full"
+                            >
+                                Log in
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Card>
+            </Space>
+        </Layout>
+    );
+};
 
 export default Login;

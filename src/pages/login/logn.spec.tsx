@@ -13,6 +13,7 @@ describe('Login Page', () => {
         const password = screen.getByPlaceholderText(/Password/);
         const checkbox = screen.getByRole('checkbox', { name: /Remember me/ });
         const forgotPassword = screen.getByText('Forgot password');
+        
         // Assert
         expect(screen.getByText(/Sign in/)).toBeInTheDocument();
         expect(username).toBeInTheDocument();
