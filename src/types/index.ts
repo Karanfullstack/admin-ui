@@ -9,3 +9,11 @@ export type LoginResponse = {
     lastName: string;
     role: string;
 };
+
+export interface User {
+    id: number;
+    firstName: string;
+    lastName: string;
+    role: string;
+    email: string;
+}

@@ -1,30 +1,27 @@
 import { LockFilled, LockOutlined, UserOutlined } from '@ant-design/icons';
-import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
-import {
-    Alert,
-    Button,
-    Card,
-    Checkbox,
-    Flex,
-    Form,
-    FormProps,
-    Input,
-    Layout,
-    Space,
-} from 'antd';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Alert, Button, Card, Checkbox, Flex, Form, FormProps, Input, Layout, Space } from 'antd';
 import Logo from '../../icons/Logo';
 import { login, self } from '../../services/http-service';
-import { LoginType } from '../../types';
+import { LoginType, User } from '../../types';
+import { useAuthStore } from '../../store';
 
 const loginUser = async (credentials: LoginType) => {
     const { data } = await login(credentials);
     return data;
 };
 
+const getSelf = async () => {
+    const { data } = await self();
+    return data;
+};
+
 const Login = () => {
-    const { data, refetch } = useQuery({
+    const { setUser } = useAuthStore();
+
+    const { refetch } = useQuery({
         queryKey: ['self'],
-        queryFn: async () => self(),
+        queryFn: getSelf,
         enabled: false,
     });
     const { mutate, isPending, isError, error } = useMutation({
@@ -33,6 +30,7 @@ const Login = () => {
         onSuccess: async () => {
             const selfData = await refetch();
             console.log(selfData);
+            setUser(selfData.data as User);
         },
     });
 
@@ -65,12 +63,7 @@ const Login = () => {
                         onFinish={onFinish}
                     >
                         {isError && (
-                            <Alert
-                                className="mb-5"
-                                message={error.message}
-                                type="error"
-                                showIcon
-                            />
+                            <Alert className="mb-5" message={error.message} type="error" showIcon />
                         )}
                         <Form.Item<LoginType>
                             name="email"
