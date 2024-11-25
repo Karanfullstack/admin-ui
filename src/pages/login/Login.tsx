@@ -1,41 +1,23 @@
 import { LockFilled, LockOutlined, UserOutlined } from '@ant-design/icons';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { Alert, Button, Card, Checkbox, Flex, Form, FormProps, Input, Layout, Space } from 'antd';
+import useLoginUser from '../../hooks/useLoginUser';
+import useSelf from '../../hooks/useSelf';
 import Logo from '../../icons/Logo';
-import { login, self } from '../../services/http-service';
-import { LoginType, User } from '../../types';
 import { useAuthStore } from '../../store';
-
-const loginUser = async (credentials: LoginType) => {
-    const { data } = await login(credentials);
-    return data;
-};
-
-const getSelf = async () => {
-    const { data } = await self();
-    return data;
-};
+import { LoginType, User } from '../../types';
 
 const Login = () => {
     const { setUser } = useAuthStore();
-
-    const { refetch } = useQuery({
-        queryKey: ['self'],
-        queryFn: getSelf,
-        enabled: false,
-    });
-    const { mutate, isPending, isError, error } = useMutation({
-        mutationKey: ['login'],
-        mutationFn: loginUser,
-        onSuccess: async () => {
-            const selfData = await refetch();
-            console.log(selfData);
-            setUser(selfData.data as User);
-        },
-    });
+    const { mutate, isPending, isError, error } = useLoginUser();
+    const { refetch } = useSelf();
 
     const onFinish: FormProps<LoginType>['onFinish'] = (values) => {
-        mutate({ email: values.email, password: values.password });
+        mutate(values, {
+            onSuccess: async () => {
+                const selfData = await refetch();
+                setUser(selfData.data as User);
+            },
+        });
     };
 
     return (
