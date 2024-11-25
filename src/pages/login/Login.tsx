@@ -5,16 +5,25 @@ import useSelf from '../../hooks/useSelf';
 import Logo from '../../icons/Logo';
 import { useAuthStore } from '../../store';
 import { LoginType, User } from '../../types';
+import usePermission from '../../hooks/usePermission';
+
+import useLogout from '../../hooks/useLogout';
 
 const Login = () => {
     const { setUser } = useAuthStore();
     const { mutate, isPending, isError, error } = useLoginUser();
     const { refetch } = useSelf();
+    const { isAllowed } = usePermission();
+    const { logoutUser } = useLogout();
 
     const onFinish: FormProps<LoginType>['onFinish'] = (values) => {
         mutate(values, {
             onSuccess: async () => {
                 const selfData = await refetch();
+                if (!isAllowed(selfData.data as User)) {
+                    logoutUser();
+                    return;
+                }
                 setUser(selfData.data as User);
             },
         });
