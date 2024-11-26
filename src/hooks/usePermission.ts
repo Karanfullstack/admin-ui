@@ -1,11 +1,12 @@
-import { User } from '../types';
+import { UserResponse } from '../types';
+import { Roles } from '../types';
 
 const usePermission = () => {
-    const roles = ['admin', 'manager'];
+    const roles = [Roles.ADMIN, Roles.MANAGER] as Roles[];
 
-    const hasPermission = (user: User) => {
+    const hasPermission = (user: UserResponse) => {
         if (user) {
-            return roles.includes(user.role);
+            return roles.includes(user.role as Roles);
         }
         return false;
     };

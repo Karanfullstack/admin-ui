@@ -9,6 +9,7 @@ const useSelf = () => {
     return useQuery({
         queryKey: ['self'],
         queryFn: selfData,
+        enabled: false,
     });
 };
 

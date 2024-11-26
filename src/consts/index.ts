@@ -1,5 +1,1 @@
-export const ROLES = {
-    CUSTOMER: 'customer',
-    ADMIN: 'admin',
-    MANAGER: 'manager',
-} as const;
+// constants can be here for future purprose

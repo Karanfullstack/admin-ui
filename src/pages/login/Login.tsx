@@ -4,7 +4,7 @@ import useLoginUser from '../../hooks/useLoginUser';
 import useSelf from '../../hooks/useSelf';
 import Logo from '../../icons/Logo';
 import { useAuthStore } from '../../store';
-import { LoginType, User } from '../../types';
+import { LoginType, UserResponse } from '../../types';
 import usePermission from '../../hooks/usePermission';
 
 import useLogout from '../../hooks/useLogout';
@@ -20,11 +20,11 @@ const Login = () => {
         mutate(values, {
             onSuccess: async () => {
                 const selfData = await refetch();
-                if (!isAllowed(selfData.data as User)) {
+                if (!isAllowed(selfData.data as UserResponse)) {
                     logoutUser();
                     return;
                 }
-                setUser(selfData.data as User);
+                setUser(selfData.data as UserResponse);
             },
         });
     };

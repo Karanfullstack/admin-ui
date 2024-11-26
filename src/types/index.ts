@@ -3,17 +3,15 @@ export type LoginType = {
     password: string;
 };
 
-export type LoginResponse = {
-    name: string;
-    email: string;
-    lastName: string;
-    role: string;
-};
-
-export interface User {
+export interface UserResponse {
     id: number;
     firstName: string;
     lastName: string;
     role: string;
     email: string;
+}
+
+export enum Roles {
+    ADMIN = 'admin',
+    MANAGER = 'manager',
 }
