@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { self } from '../services/http-service';
 
-const useSelf = () => {
+const useSelf = (enabled: boolean = false) => {
     const selfData = async () => {
         const { data } = await self();
         return data;
@@ -9,7 +9,8 @@ const useSelf = () => {
     return useQuery({
         queryKey: ['self'],
         queryFn: selfData,
-        enabled: false,
+        enabled: enabled,
+        retry: false,
     });
 };
 

@@ -3,6 +3,7 @@ import { useAuthStore } from '../store';
 
 export default function PrivateRoutes() {
     const { user } = useAuthStore();
+
     if (user === null) {
         return <Navigate to={'/auth/login'} replace={true} />;
     }
