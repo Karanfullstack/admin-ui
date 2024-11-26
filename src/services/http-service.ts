@@ -1,5 +1,5 @@
 import { UserResponse, LoginType } from '../types';
-import client from './client';
+import { client } from './client';
 
 export const login = async (credentials: LoginType) =>
     await client.post<UserResponse>('/auth/login', credentials);

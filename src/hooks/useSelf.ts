@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { self } from '../services/http-service';
+import { AxiosError } from 'axios';
 
 const useSelf = (enabled: boolean = false) => {
     const selfData = async () => {
@@ -10,7 +11,13 @@ const useSelf = (enabled: boolean = false) => {
         queryKey: ['self'],
         queryFn: selfData,
         enabled: enabled,
-        retry: false,
+        retry: (failureCount: number, error) => {
+            if (error instanceof AxiosError && error.response?.status === 401) {
+                return false;
+            }
+            return failureCount < 2;
+        },
+        // refetchOnWindowFocus: false
     });
 };
 
