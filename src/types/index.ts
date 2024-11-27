@@ -1,14 +1,16 @@
+type Tenant = {
+    id: number;
+    name: string;
+    address: string;
+};
+
 export interface User {
     firstName: string;
     lastName: string;
     email: string;
     role: string;
     id: number;
-    tenant: {
-        id: number;
-        name: string;
-        address: string;
-    };
+    tenant: Tenant;
 }
 
 export type LoginType = {

@@ -1,7 +1,11 @@
+import { useAuthStore } from '../store';
+
 function HomePage() {
+    const user = useAuthStore((state) => state.user);
+    const role = user?.role === 'admin' ? 'Admin' : 'Manager';
     return (
         <>
-            <h1 className=" text-2xl font-bold">Hello Admin!</h1>
+            <h1 className=" text-2xl font-bold">Good Morning {role}!</h1>
         </>
     );
 }

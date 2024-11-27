@@ -59,7 +59,7 @@ export default function PrivateRoutes() {
     if (user === null) {
         return <Navigate to={'/auth/login'} replace={true} />;
     }
-
+    const address = user.tenant ? user.tenant.name + ' / ' + user.tenant.address : 'Global';
     return (
         <div>
             <Layout style={{ minHeight: '100vh' }}>
@@ -94,7 +94,7 @@ export default function PrivateRoutes() {
                         >
                             <div>
                                 <span className=" bg-[rgba(246,95,66,0.12)]  text-xs text-[#f65f42]  rounded-2xl p-2 font-semibold">
-                                    Krakow, Pizza-Hub
+                                    {address}
                                 </span>
                             </div>
                             <Flex className="pr-2" align="center" gap={10}>
