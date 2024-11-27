@@ -1,3 +1,16 @@
+export interface User {
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: string;
+    id: number;
+    tenant: {
+        id: number;
+        name: string;
+        address: string;
+    };
+}
+
 export type LoginType = {
     email: string;
     password: string;
