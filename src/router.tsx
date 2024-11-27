@@ -4,6 +4,7 @@ import Login from './pages/login/Login';
 import PrivateLayout from './layouts/PrivateLayout';
 import PublicLayout from './layouts/PublicLayout';
 import RootLayout from './layouts/RootLayout';
+import Users from './pages/users/Users';
 
 export const router = createBrowserRouter([
     {
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
                     {
                         path: '',
                         element: <HomePage />,
+                    },
+                    {
+                        path: '/users',
+                        element: <Users />,
                     },
                 ],
             },
