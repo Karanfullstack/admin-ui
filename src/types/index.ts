@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 type Tenant = {
     id: number;
     name: string;
@@ -18,9 +20,15 @@ export type LoginType = {
     password: string;
 };
 
-export type UserResponse = User
+export type UserResponse = User;
 
 export enum Roles {
     ADMIN = 'admin',
     MANAGER = 'manager',
+}
+
+export interface TotalCardProps {
+    total: number;
+    icon: ReactNode;
+    title: string;
 }

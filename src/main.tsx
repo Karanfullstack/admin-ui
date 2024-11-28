@@ -15,11 +15,13 @@ createRoot(document.getElementById('root')!).render(
                     token: {
                         colorPrimary: '#F65F42',
                         colorLink: '#F65F42',
+                        fontFamily:
+                            'Poppins, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue Arial, sans-serif;',
                     },
                 }}
             >
                 <RouterProvider router={router} />
             </ConfigProvider>
         </QueryClientProvider>
-    </StrictMode>
+    </StrictMode>,
 );
