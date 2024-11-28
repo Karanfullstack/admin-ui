@@ -6,7 +6,7 @@ import { Navigate, NavLink, Outlet } from 'react-router-dom';
 import { HomeIcon, GiftIcon, Logo, FoodIcon, ProductIcon, SmallLogo, UserIcon } from '../icons';
 import { useAuthStore } from '../store';
 import useLogout from '../hooks/useLogout';
-import CustomBadge from '../components/CustomBadge';
+import AddressStatus from '../components/AddressStatus';
 const { Sider } = Layout;
 
 type MenuItems = {
@@ -87,7 +87,7 @@ export default function PrivateRoutes() {
                             justify="space-between"
                             align="center"
                         >
-                            <CustomBadge text={address} />
+                            <AddressStatus text={address} />
                             <Flex className="pr-2" align="center" gap={10}>
                                 <Badge dot={true}>
                                     <BellFilled className="text-lg hover:text-[#f65f42] cursor-pointer" />
