@@ -6,7 +6,6 @@ import Logo from '../../icons/Logo';
 import { useAuthStore } from '../../store';
 import { LoginType, UserResponse } from '../../types';
 import usePermission from '../../hooks/usePermission';
-
 import useLogout from '../../hooks/useLogout';
 
 const Login = () => {

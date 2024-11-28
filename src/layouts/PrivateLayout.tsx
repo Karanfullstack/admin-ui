@@ -3,15 +3,10 @@ import { Avatar, Badge, Dropdown, Flex, Layout, Menu, theme } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { ReactNode, useState } from 'react';
 import { Navigate, NavLink, Outlet } from 'react-router-dom';
-import { FoodIcon } from '../icons/FoodIcon';
-import GiftIcon from '../icons/GiftIcon';
-import HomeIcon from '../icons/HomeIcon';
-import Logo from '../icons/Logo';
-import ProductIcon from '../icons/ProductsIcon';
-import SmallLogo from '../icons/SmallLogo';
-import UserIcon from '../icons/UserIcon';
+import { HomeIcon, GiftIcon, Logo, FoodIcon, ProductIcon, SmallLogo, UserIcon } from '../icons';
 import { useAuthStore } from '../store';
 import useLogout from '../hooks/useLogout';
+import CustomBadge from '../components/CustomBadge';
 const { Sider } = Layout;
 
 type MenuItems = {
@@ -92,11 +87,7 @@ export default function PrivateRoutes() {
                             justify="space-between"
                             align="center"
                         >
-                            <div>
-                                <span className=" bg-[rgba(246,95,66,0.12)]  text-xs text-[#f65f42]  rounded-2xl p-2 font-semibold">
-                                    {address}
-                                </span>
-                            </div>
+                            <CustomBadge text={address} />
                             <Flex className="pr-2" align="center" gap={10}>
                                 <Badge dot={true}>
                                     <BellFilled className="text-lg hover:text-[#f65f42] cursor-pointer" />

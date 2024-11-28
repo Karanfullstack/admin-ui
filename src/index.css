@@ -19,3 +19,7 @@ body {
 .ant-typography.text {
     font-family: 'Poppins', sans-serif;
 }
+
+.ant-typography.title {
+    font-family: 'Poppins', sans-serif;
+}

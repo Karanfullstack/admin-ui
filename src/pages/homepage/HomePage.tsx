@@ -1,9 +1,9 @@
-import TotalCard from '../components/TotalCard';
-import SaleIcon from '../icons/SaleIcon';
-
-import ShopIcon from '../icons/ShopIcon';
-import { useAuthStore } from '../store';
+import TotalCard from './_components/TotalCard';
+import { SaleIcon, ShopIcon } from '../../icons';
+import { useAuthStore } from '../../store/index';
 import { Col, Row, Typography } from 'antd';
+import RecentOrders from './_components/RecentOrders';
+
 function HomePage() {
     const user = useAuthStore((state) => state.user);
     const role = user?.role === user?.firstName ? 'Admin' : user?.firstName;
@@ -13,12 +13,14 @@ function HomePage() {
                 Good Morning {role}! 😃
             </Typography.Title>
 
-            <Row justify="space-between" className=" pt-7">
+            <Row justify="space-between" gutter={20} className=" pt-7">
                 <Col span={12} className="flex gap-4">
                     <TotalCard title="Total Orders" total={12} icon={<ShopIcon />} />
                     <TotalCard title="Total Sales" total={1020} icon={<SaleIcon />} />
                 </Col>
-                <Col span={12}></Col>
+                <Col span={12}>
+                    <RecentOrders />
+                </Col>
             </Row>
         </>
     );
