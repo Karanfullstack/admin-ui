@@ -49,7 +49,7 @@ const Login = () => {
                         initialValues={{
                             remember: true,
                             email: 'karan@gmail.com',
-                            password: 'secrets',
+                            password: 'karankaran',
                         }}
                         onFinish={onFinish}
                     >

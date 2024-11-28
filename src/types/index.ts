@@ -10,7 +10,7 @@ export interface User {
     email: string;
     role: string;
     id: number;
-    tenant: Tenant;
+    tenant?: Tenant;
 }
 
 export type LoginType = {
@@ -18,13 +18,7 @@ export type LoginType = {
     password: string;
 };
 
-export interface UserResponse {
-    id: number;
-    firstName: string;
-    lastName: string;
-    role: string;
-    email: string;
-}
+export type UserResponse = User
 
 export enum Roles {
     ADMIN = 'admin',
