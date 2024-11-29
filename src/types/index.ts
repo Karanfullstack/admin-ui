@@ -32,3 +32,9 @@ export interface TotalCardProps {
     icon: ReactNode;
     title: string;
 }
+
+export enum Status {
+    DELIVERED = 'Delivered',
+    ON_THE_WAY = 'On the way',
+    PREPARING = 'Preparing',
+}

@@ -44,7 +44,7 @@ export default function RecentOrders() {
 
             {orders.map((item, index) => (
                 <Flex align="center" key={index} className="w-full  my-3 justify-between">
-                    <div className="">
+                    <div className=" ">
                         <Typography.Text className="font-[600]">{item.name}</Typography.Text>
                         <p className="font-[400]">{item.address}</p>
                     </div>
@@ -55,6 +55,9 @@ export default function RecentOrders() {
                     </Flex>
                 </Flex>
             ))}
+            <Typography.Text className="hover:decoration-2 cursor-pointer underline underline-offset-4 decoration-orange-600 font-medium decoration-4">
+                See all orders
+            </Typography.Text>
         </Card>
     );
 }
