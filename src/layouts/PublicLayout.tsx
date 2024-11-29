@@ -6,11 +6,5 @@ export default function PublicLayout() {
     if (user !== null) {
         return <Navigate to={'/'} replace={true} />;
     }
-    return (
-        <div>
-            <h1 className="text-3xl">Public Layout</h1>
-
-            <Outlet />
-        </div>
-    );
+    return <Outlet />;
 }

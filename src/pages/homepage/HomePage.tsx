@@ -7,7 +7,7 @@ import Graph from './_components/Graph';
 
 function HomePage() {
     const user = useAuthStore((state) => state.user);
-    const role = user?.role === user?.firstName ? 'Admin' : user?.firstName;
+    const role = user?.role === "admin" ? "Admin" : user?.firstName;
     return (
         <>
             <Typography.Title level={3} className="  font-bold">

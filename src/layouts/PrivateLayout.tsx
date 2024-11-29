@@ -10,7 +10,7 @@ import AddressStatus from '../components/AddressStatus';
 const { Sider } = Layout;
 
 type MenuItems = {
-    key: React.Key;
+    key: string;
     icon: ReactNode;
     label: ReactNode;
 };
@@ -44,7 +44,7 @@ const items: MenuItems[] = [
 ];
 
 export default function PrivateRoutes() {
-    const { user } = useAuthStore();
+    const user = useAuthStore((state) => state.user);
     const { logoutUser } = useLogout();
     const [collapsed, setCollapsed] = useState(false);
     const {
@@ -54,6 +54,7 @@ export default function PrivateRoutes() {
     if (user === null) {
         return <Navigate to={'/auth/login'} replace={true} />;
     }
+
     const address = user.tenant ? user.tenant.name + ' / ' + user.tenant.address : 'Admin';
     return (
         <div>

@@ -35,6 +35,7 @@ export default function RecentOrders() {
             orderStatus: 'On the way',
         },
     ];
+
     return (
         <Card className=" rounded-none w-full tracking-wide">
             <Flex align="center" gap={14} className="pb-4">
