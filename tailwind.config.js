@@ -4,10 +4,6 @@ export default {
     theme: {
         extend: {},
     },
-    safelist: [
-        {
-            pattern: /bg-\[rgba\(.*\)\]/, // Safelist all RGBA backgrounds
-        },
-    ],
+
     plugins: [],
 };

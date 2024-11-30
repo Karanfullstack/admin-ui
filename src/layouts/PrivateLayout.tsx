@@ -2,7 +2,7 @@ import Icon, { BellFilled } from '@ant-design/icons';
 import { Avatar, Badge, Dropdown, Flex, Layout, Menu, theme } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { ReactNode, useState } from 'react';
-import { Navigate, NavLink, Outlet } from 'react-router-dom';
+import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { HomeIcon, GiftIcon, Logo, FoodIcon, ProductIcon, SmallLogo, UserIcon } from '../icons';
 import { useAuthStore } from '../store';
 import useLogout from '../hooks/useLogout';
@@ -45,8 +45,10 @@ const items: MenuItems[] = [
 
 export default function PrivateRoutes() {
     const user = useAuthStore((state) => state.user);
+    const location = useLocation();
     const { logoutUser } = useLogout();
     const [collapsed, setCollapsed] = useState(false);
+    
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -57,7 +59,7 @@ export default function PrivateRoutes() {
 
     const address = user.tenant ? user.tenant.name + ' / ' + user.tenant.address : 'Admin';
     return (
-        <div>
+        <>
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
                     theme="light"
@@ -72,7 +74,13 @@ export default function PrivateRoutes() {
                             <Logo className="px-5 py-4" />
                         )}
                     </div>
-                    <Menu items={items} theme="light" defaultSelectedKeys={['/']} mode="inline" />
+                    <Menu
+                        items={items}
+                        theme="light"
+                        defaultSelectedKeys={['/']}
+                        selectedKeys={[location.pathname]}
+                        mode="inline"
+                    />
                 </Sider>
                 <Layout>
                     <Header
@@ -116,6 +124,6 @@ export default function PrivateRoutes() {
                     <Footer style={{ textAlign: 'center' }}>Restaurant Hub</Footer>
                 </Layout>
             </Layout>
-        </div>
+        </>
     );
 }

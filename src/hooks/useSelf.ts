@@ -1,15 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import { self } from '../services/http-service';
 import { AxiosError } from 'axios';
+import httpService from '../services/http-service';
+import { UserResponse } from '../types';
 
+const service = new httpService<UserResponse>('/auth/self');
 const useSelf = (enabled: boolean = false) => {
-    const selfData = async () => {
-        const { data } = await self();
-        return data;
-    };
-    return useQuery({
+    return useQuery<UserResponse, Error>({
         queryKey: ['self'],
-        queryFn: selfData,
+        queryFn: service.getOne.bind(service),
         enabled: enabled,
         retry: (failureCount: number, error) => {
             if (error instanceof AxiosError && error.response?.status === 401) {

@@ -7,7 +7,10 @@ export default function Users() {
         <div>
             <Breadcrumb
                 separator={<DoubleRightOutlined />}
-                items={[{ title: <Link to={'/'}>Dashboard</Link> }, { title: 'Users' }]}
+                items={[
+                    { title: <Link to={{ pathname: '/' }}>Dashboard</Link> },
+                    { title: 'Users' },
+                ]}
             />
         </div>
     );

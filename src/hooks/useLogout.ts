@@ -1,15 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
+import httpService from '../services/http-service';
 import { useAuthStore } from '../store';
-import { logout } from '../services/http-service';
 
+const service = new httpService<void>('/auth/logout');
 const useLogout = () => {
     const { logout: logoutFromStore } = useAuthStore();
-    const logoutFun = async () => {
-        return await logout();
-    };
 
     const { mutate } = useMutation({
-        mutationFn: logoutFun,
+        mutationFn: service.create.bind(service),
         mutationKey: ['logout'],
         onSuccess: async () => {
             logoutFromStore();

@@ -1,5 +1,6 @@
 import { Typography } from 'antd';
 import { Status } from '../types';
+
 export default function CustpmBadge({ text }: { text: string }) {
     const colorMap: Record<Status, string> = {
         'On the way': 'bg-[rgba(20,170,255,0.12)] text-[#14AAFF]',

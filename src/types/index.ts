@@ -13,6 +13,8 @@ export interface User {
     role: string;
     id: number;
     tenant?: Tenant;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export type LoginType = {
