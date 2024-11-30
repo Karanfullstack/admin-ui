@@ -15,6 +15,12 @@ createRoot(document.getElementById('root')!).render(
                     colorLink: '#F65F42',
                     fontFamily: 'Poppins,  sans-serif;',
                 },
+                components: {
+                    Table: {
+                        headerBg: '#F48668',
+                        headerColor: 'white',
+                    },
+                },
             }}
         >
             <RouterProvider router={router} />
