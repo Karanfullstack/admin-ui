@@ -2,7 +2,8 @@ import { DoubleRightOutlined } from '@ant-design/icons';
 import { Breadcrumb, Table, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import useUser from '../../hooks/useUser';
-import { User } from '../../types';
+import { User, UserResponse } from '../../types';
+import Filter from '../../components/Filter';
 
 const columns = [
     {
@@ -66,7 +67,12 @@ export default function Users() {
             />
 
             <div className="p-3 mt-3">
-                <Table columns={columns} dataSource={users?.data} />
+                <Filter />
+                <Table
+                    rowKey={(record: UserResponse) => record.id}
+                    columns={columns}
+                    dataSource={users?.data}
+                />
             </div>
         </>
     );
