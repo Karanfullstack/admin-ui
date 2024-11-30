@@ -40,3 +40,11 @@ export enum Status {
     ON_THE_WAY = 'On the way',
     PREPARING = 'Preparing',
 }
+
+export interface FetchResponse<T> {
+    data: T[];
+    total: number;
+    perPage: number;
+    currentPage: number;
+    success: boolean;
+}
