@@ -7,6 +7,7 @@ import { HomeIcon, GiftIcon, Logo, FoodIcon, ProductIcon, SmallLogo, UserIcon } 
 import { useAuthStore } from '../store';
 import useLogout from '../hooks/useLogout';
 import AddressStatus from '../components/AddressStatus';
+
 const { Sider } = Layout;
 
 type MenuItems = {
@@ -20,11 +21,6 @@ const items: MenuItems[] = [
         key: '/',
         icon: <Icon component={HomeIcon} />,
         label: <NavLink to="/">Home</NavLink>,
-    },
-    {
-        key: '/users',
-        icon: <Icon component={UserIcon} />,
-        label: <NavLink to="/users">Users</NavLink>,
     },
     {
         key: '/restaurants',
@@ -43,12 +39,26 @@ const items: MenuItems[] = [
     },
 ];
 
+const protectedItems = (role: string) => {
+    if (role === 'admin') {
+        const menus = [...items];
+        menus.splice(1, 0, {
+            key: '/users',
+            icon: <Icon component={UserIcon} />,
+            label: <NavLink to="/users">Users</NavLink>,
+        });
+        return menus;
+    }
+    return items;
+};
+
 export default function PrivateRoutes() {
     const user = useAuthStore((state) => state.user);
+    const menuItems = protectedItems(user?.role as string);
     const location = useLocation();
     const { logoutUser } = useLogout();
     const [collapsed, setCollapsed] = useState(false);
-    
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -56,6 +66,7 @@ export default function PrivateRoutes() {
     if (user === null) {
         return <Navigate to={'/auth/login'} replace={true} />;
     }
+    if (user?.role !== 'admin') return <Navigate to={'/'} />;
 
     const address = user.tenant ? user.tenant.name + ' / ' + user.tenant.address : 'Admin';
     return (
@@ -75,7 +86,7 @@ export default function PrivateRoutes() {
                         )}
                     </div>
                     <Menu
-                        items={items}
+                        items={menuItems}
                         theme="light"
                         defaultSelectedKeys={['/']}
                         selectedKeys={[location.pathname]}

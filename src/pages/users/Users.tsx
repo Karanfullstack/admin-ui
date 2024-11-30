@@ -1,5 +1,5 @@
 import { DoubleRightOutlined } from '@ant-design/icons';
-import { Breadcrumb, Spin, Table, Typography } from 'antd';
+import { Breadcrumb, Table, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import useUser from '../../hooks/useUser';
 import { User } from '../../types';
@@ -38,7 +38,9 @@ const columns = [
         dataIndex: 'tenant',
         key: 'tenant',
         render: (_text: string, role: User) => (
-            <Typography.Text className="capitalize">{role.tenant?.address ?? ''}</Typography.Text>
+            <Typography.Text className="capitalize italic">
+                {role.tenant?.address ?? ''}
+            </Typography.Text>
         ),
     },
 
@@ -51,8 +53,8 @@ const columns = [
 ];
 
 export default function Users() {
-    const { data: users, isLoading } = useUser();
-    console.log(users);
+    const { data: users } = useUser();
+
     return (
         <>
             <Breadcrumb
@@ -62,7 +64,7 @@ export default function Users() {
                     { title: 'Users' },
                 ]}
             />
-            {isLoading && <Spin size="large" />}
+
             <div className="p-3 mt-3">
                 <Table columns={columns} dataSource={users?.data} />
             </div>
