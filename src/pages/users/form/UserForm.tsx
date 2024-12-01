@@ -122,7 +122,7 @@ export default function UserForm() {
                                         placeholder="Restaurants"
                                     >
                                         {tenants?.data.map((tenant: Tenant) => (
-                                            <Select.Option value={tenant.id}>
+                                            <Select.Option key={tenant.id} value={tenant.id}>
                                                 {tenant.name}
                                             </Select.Option>
                                         ))}

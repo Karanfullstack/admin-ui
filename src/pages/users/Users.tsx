@@ -43,9 +43,9 @@ const columns = [
         title: 'Restaurant',
         dataIndex: 'tenant',
         key: 'tenant',
-        render: (_text: string, role: User) => (
-            <Typography.Text className="capitalize italic">
-                {role.tenant?.address ?? ''}
+        render: (_text: string, record: User) => (
+            <Typography.Text className="capitalize italic bg-orange-100 px-2 py-1 rounded-md">
+                {record.tenant?.name ?? ''}
             </Typography.Text>
         ),
     },
@@ -87,7 +87,7 @@ export default function Users() {
                 </Filter>
                 <Table
                     loading={isLoading}
-                    rowKey={(record: UserResponse) => record.id}
+                    rowKey={(record: UserResponse) => record.id!}
                     columns={columns}
                     dataSource={users?.data}
                 />

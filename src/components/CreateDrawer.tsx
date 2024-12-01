@@ -1,6 +1,7 @@
 import { Button, Drawer, Form, Space } from 'antd';
 import { memo } from 'react';
-import UserForm from '../pages/users/form/userForm';
+import UserForm from '../pages/users/form/UserForm';
+import useAddUser from '../hooks/useAddUser';
 
 export default memo(function CreateDrawer({
     open,
@@ -9,11 +10,18 @@ export default memo(function CreateDrawer({
     open: boolean;
     setOpen: (value: boolean) => void;
 }) {
-    console.log('karan');
+    const [form] = Form.useForm();
+    const addUser = useAddUser();
+    const handleSubmit = async () => {
+        await form.validateFields();
+        addUser.mutate(form.getFieldsValue());
+        setOpen(false);
+    };
+
     return (
         <Drawer
             closable
-            destroyOnClose
+            destroyOnClose={true}
             title={'Create User'}
             placement="right"
             width={'600px'}
@@ -25,13 +33,13 @@ export default memo(function CreateDrawer({
                         Cancel
                     </Button>
 
-                    <Button key="submit" type="primary">
+                    <Button onClick={handleSubmit} key="submit" type="primary">
                         Save
                     </Button>
                 </Space>,
             ]}
         >
-            <Form layout="vertical">
+            <Form clearOnDestroy layout="vertical" form={form}>
                 <UserForm />
             </Form>
         </Drawer>
