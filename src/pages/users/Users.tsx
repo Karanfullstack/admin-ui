@@ -29,7 +29,9 @@ const columns = [
         title: 'Last Name',
         dataIndex: 'lastName',
         key: 'lastName',
-        render: (text: string) => <Typography.Text className=" capitalize">{text}</Typography.Text>,
+        render: (text: string) => (
+            <Typography.Text className=" capitalize">{text}</Typography.Text>
+        ),
     },
     {
         title: 'Email',
@@ -52,7 +54,9 @@ const columns = [
         title: 'Role',
         dataIndex: 'role',
         key: 'role',
-        render: (text: string) => <Typography.Text className="capitalize">{text}</Typography.Text>,
+        render: (text: string) => (
+            <Typography.Text className="capitalize">{text}</Typography.Text>
+        ),
     },
 ];
 

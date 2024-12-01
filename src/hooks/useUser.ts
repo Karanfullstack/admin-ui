@@ -1,4 +1,4 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import httpService from '../services/http-service';
 import { FetchResponse, UserResponse } from '../types';
 import { useFilterStore } from '../store/filter.store';
@@ -16,6 +16,5 @@ export default function useUser() {
                     status: query.status,
                 },
             }),
-        placeholderData: keepPreviousData,
     });
 }

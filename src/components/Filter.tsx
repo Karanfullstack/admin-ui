@@ -15,13 +15,13 @@ export default function Filter({ children }: { children?: ReactNode }) {
                                 placeholder="Search user"
                             />
                         </Col>
-                        <Col span={8}>
+                        <Col span={10}>
                             <Flex gap={12}>
                                 <Select
+                                    allowClear
                                     onChange={(value) => setRole(value)}
                                     value={query.role}
                                     className="w-full"
-                                    showSearch
                                     placeholder="Role"
                                     optionFilterProp="role"
                                     options={[
@@ -40,8 +40,8 @@ export default function Filter({ children }: { children?: ReactNode }) {
                                     ]}
                                 />
                                 <Select
+                                    allowClear
                                     className="w-full"
-                                    showSearch
                                     value={query.status}
                                     onChange={(value) => setStatus(value)}
                                     placeholder="Status"
