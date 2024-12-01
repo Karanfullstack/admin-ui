@@ -1,5 +1,6 @@
-import { Button, Drawer, Space } from 'antd';
+import { Button, Drawer, Form, Space } from 'antd';
 import { memo } from 'react';
+import UserForm from '../pages/users/form/userForm';
 
 export default memo(function CreateDrawer({
     open,
@@ -10,31 +11,29 @@ export default memo(function CreateDrawer({
 }) {
     console.log('karan');
     return (
-        <>
-            <Drawer
-                closable
-                destroyOnClose
-                title={'Create User'}
-                placement="right"
-                width={'600px'}
-                open={open}
-                onClose={() => setOpen(false)}
-                extra={[
-                    <Space key="drawer">
-                        <Button key="cancel" onClick={() => setOpen(false)}>
-                            Cancel
-                        </Button>
+        <Drawer
+            closable
+            destroyOnClose
+            title={'Create User'}
+            placement="right"
+            width={'600px'}
+            open={open}
+            onClose={() => setOpen(false)}
+            extra={[
+                <Space key="drawer">
+                    <Button key="cancel" onClick={() => setOpen(false)}>
+                        Cancel
+                    </Button>
 
-                        <Button key="submit" type="primary">
-                            Submit
-                        </Button>
-                    </Space>,
-                ]}
-            >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-            </Drawer>
-        </>
+                    <Button key="submit" type="primary">
+                        Save
+                    </Button>
+                </Space>,
+            ]}
+        >
+            <Form layout="vertical">
+                <UserForm />
+            </Form>
+        </Drawer>
     );
 });
