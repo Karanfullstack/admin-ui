@@ -1,10 +1,9 @@
-import { Button, Card, Col, Flex, Input, Row, Select } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { useFilterStore } from '../store/filter.store';
-export default function Filter() {
-    const { query, setRole, setSearch, setStatus } = useFilterStore();
+import { Card, Col, Flex, Input, Row, Select } from 'antd';
 
-    console.log(query);
+import { useFilterStore } from '../store/filter.store';
+import { ReactNode } from 'react';
+export default function Filter({ children }: { children?: ReactNode }) {
+    const { query, setRole, setSearch, setStatus } = useFilterStore();
     return (
         <Card size="small" className="mb-4">
             <Row justify={'space-between'}>
@@ -62,11 +61,7 @@ export default function Filter() {
                         </Col>
                     </Row>
                 </Col>
-                <Col>
-                    <Button icon={<PlusOutlined />} type="primary">
-                        ADD USER
-                    </Button>
-                </Col>
+                <Col>{children}</Col>
             </Row>
         </Card>
     );
