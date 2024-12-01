@@ -1,9 +1,10 @@
 import { DoubleRightOutlined } from '@ant-design/icons';
 import { Breadcrumb, Table, Typography } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import useUser from '../../hooks/useUser';
 import { User, UserResponse } from '../../types';
 import Filter from '../../components/Filter';
+import { useAuthStore } from '../../store';
 
 const columns = [
     {
@@ -54,8 +55,9 @@ const columns = [
 ];
 
 export default function Users() {
-    const { data: users } = useUser();
-
+    const { data: users, isLoading } = useUser();
+    const userStore = useAuthStore((state) => state.user);
+    if (userStore?.role !== 'admin') return <Navigate to="/" replace={false}/>;
     return (
         <>
             <Breadcrumb
@@ -69,9 +71,11 @@ export default function Users() {
             <div className="p-3 mt-3">
                 <Filter />
                 <Table
+                loading={isLoading}
                     rowKey={(record: UserResponse) => record.id}
                     columns={columns}
                     dataSource={users?.data}
+                  
                 />
             </div>
         </>

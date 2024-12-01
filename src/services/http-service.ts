@@ -1,4 +1,6 @@
+import { AxiosRequestConfig } from 'axios';
 import { client } from './client';
+import { FetchResponse } from '../types';
 
 interface Entity {
     id: number;
@@ -6,8 +8,8 @@ interface Entity {
 
 class httpService<T> {
     constructor(readonly endpoint: string) {}
-    geAll() {
-        return client.get<T>(this.endpoint).then((res) => res.data);
+    geAll(config?: AxiosRequestConfig) {
+        return client.get<FetchResponse<T>>(this.endpoint, config).then((res) => res.data);
     }
     getOne() {
         return client.get<T>(this.endpoint).then((res) => res.data);

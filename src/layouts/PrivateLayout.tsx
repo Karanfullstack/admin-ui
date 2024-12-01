@@ -66,10 +66,9 @@ export default function PrivateRoutes() {
     if (user === null) {
         return <Navigate to={'/auth/login'} replace={true} />;
     }
-    if (user?.role !== 'admin') return <Navigate to={'/'} />;
 
     const address = user.tenant ? user.tenant.name + ' / ' + user.tenant.address : 'Admin';
-    
+
     return (
         <>
             <Layout style={{ minHeight: '100vh' }}>
