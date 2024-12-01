@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-type Tenant = {
+export type Tenant = {
     id: number;
     name: string;
     address: string;
