@@ -10,8 +10,8 @@ export default memo(function CreateDrawer({
     open: boolean;
     setOpen: (value: boolean) => void;
 }) {
-    const [form] = Form.useForm();
     const addUser = useAddUser();
+    const [form] = Form.useForm();
     const handleSubmit = async () => {
         await form.validateFields();
         addUser.mutate(form.getFieldsValue());
@@ -43,9 +43,7 @@ export default memo(function CreateDrawer({
                 </Space>,
             ]}
         >
-            <Form clearOnDestroy layout="vertical" form={form}>
-                <UserForm />
-            </Form>
+            <UserForm form={form} />
         </Drawer>
     );
 });
