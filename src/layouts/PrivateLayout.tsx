@@ -3,7 +3,15 @@ import { Avatar, Badge, Dropdown, Flex, Layout, Menu, theme } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { ReactNode, useState } from 'react';
 import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { HomeIcon, GiftIcon, Logo, FoodIcon, ProductIcon, SmallLogo, UserIcon } from '../icons';
+import {
+    HomeIcon,
+    GiftIcon,
+    Logo,
+    FoodIcon,
+    ProductIcon,
+    SmallLogo,
+    UserIcon,
+} from '../icons';
 import { useAuthStore } from '../store';
 import useLogout from '../hooks/useLogout';
 import AddressStatus from '../components/AddressStatus';
@@ -64,10 +72,14 @@ export default function PrivateRoutes() {
     } = theme.useToken();
 
     if (user === null) {
-        return <Navigate to={'/auth/login'} replace={true} />;
+        return (
+            <Navigate to={`/auth/login?returnTo=${location.pathname}`} replace={true} />
+        );
     }
 
-    const address = user.tenant ? user.tenant.name + ' / ' + user.tenant.address : 'Admin';
+    const address = user.tenant
+        ? user.tenant.name + ' / ' + user.tenant.address
+        : 'Admin';
 
     return (
         <>
