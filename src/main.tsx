@@ -6,6 +6,7 @@ import router from './router';
 import { ConfigProvider } from 'antd';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const queryClient = new QueryClient();
+
 createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
         <ConfigProvider
@@ -13,7 +14,7 @@ createRoot(document.getElementById('root')!).render(
                 token: {
                     colorPrimary: '#F65F42',
                     colorLink: '#F65F42',
-                    fontFamily: 'Poppins,  sans-serif;',
+                    fontFamily: 'Poppins,  sans-serif',
                 },
 
                 components: {

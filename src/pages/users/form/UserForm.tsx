@@ -100,7 +100,7 @@ export default function UserForm() {
                                         <Select.Option value="manager">
                                             Manager
                                         </Select.Option>
-                                        <Select.Option value="Customer">
+                                        <Select.Option value="customer">
                                             Customer
                                         </Select.Option>
                                     </Select>
@@ -111,7 +111,7 @@ export default function UserForm() {
                                     name="tenantID"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Tenant is required',
                                         },
                                     ]}
@@ -122,7 +122,10 @@ export default function UserForm() {
                                         placeholder="Restaurants"
                                     >
                                         {tenants?.data.map((tenant: Tenant) => (
-                                            <Select.Option key={tenant.id} value={tenant.id}>
+                                            <Select.Option
+                                                key={tenant.id}
+                                                value={tenant.id}
+                                            >
                                                 {tenant.name}
                                             </Select.Option>
                                         ))}

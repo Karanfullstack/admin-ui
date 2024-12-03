@@ -1,9 +1,17 @@
 import { Card, Col, Flex, Input, Row, Select } from 'antd';
 
 import { useFilterStore } from '../store/filter.store';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
+import { debounce } from 'lodash';
 export default function Filter({ children }: { children?: ReactNode }) {
-    const { query, setRole, setSearch, setStatus } = useFilterStore();
+    const { query, setRole, setSearch } = useFilterStore();
+
+    const deBounced = useMemo(() => {
+        return debounce((searchedValue: string) => {
+            setSearch(searchedValue);
+        }, 500);
+    }, [setSearch]);
+
     return (
         <Card size="small" className="mb-4">
             <Row justify={'space-between'}>
@@ -11,12 +19,12 @@ export default function Filter({ children }: { children?: ReactNode }) {
                     <Row gutter={10}>
                         <Col span={14}>
                             <Input.Search
-                                onChange={(value) => setSearch(value.target.value)}
+                                onChange={(value) => deBounced(value.target.value)}
                                 placeholder="Search user"
                             />
                         </Col>
-                        <Col span={10}>
-                            <Flex gap={12}>
+                        <Col span={6}>
+                            <Flex gap={10}>
                                 <Select
                                     allowClear
                                     onChange={(value) => setRole(value)}
@@ -36,24 +44,6 @@ export default function Filter({ children }: { children?: ReactNode }) {
                                         {
                                             value: 'customer',
                                             label: 'Customer',
-                                        },
-                                    ]}
-                                />
-                                <Select
-                                    allowClear
-                                    className="w-full"
-                                    value={query.status}
-                                    onChange={(value) => setStatus(value)}
-                                    placeholder="Status"
-                                    optionFilterProp="status"
-                                    options={[
-                                        {
-                                            value: 'active',
-                                            label: 'Active',
-                                        },
-                                        {
-                                            value: 'banned',
-                                            label: 'Banned',
                                         },
                                     ]}
                                 />

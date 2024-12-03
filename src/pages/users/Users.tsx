@@ -95,6 +95,7 @@ export default function Users() {
                     columns={columns}
                     dataSource={users?.data}
                     pagination={{
+                        position: ['bottomLeft'],
                         total: users?.total,
                         current: query.currentPage,
                         pageSize: query.perPage || PER_PAGE,

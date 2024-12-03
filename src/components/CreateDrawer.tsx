@@ -15,11 +15,15 @@ export default memo(function CreateDrawer({
     const handleSubmit = async () => {
         await form.validateFields();
         addUser.mutate(form.getFieldsValue());
-        setOpen(false);
+
+        if (!addUser.isPending) {
+            setOpen(false);
+        }
     };
 
     return (
         <Drawer
+            loading={addUser.isPending}
             closable
             destroyOnClose={true}
             title={'Create User'}
