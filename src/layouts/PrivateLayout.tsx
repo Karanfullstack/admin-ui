@@ -30,11 +30,7 @@ const items: MenuItems[] = [
         icon: <Icon component={HomeIcon} />,
         label: <NavLink to="/">Home</NavLink>,
     },
-    {
-        key: '/restaurants',
-        icon: <Icon component={FoodIcon} />,
-        label: <NavLink to="/users">Restaurants</NavLink>,
-    },
+
     {
         key: '/products',
         icon: <Icon component={ProductIcon} />,
@@ -50,11 +46,20 @@ const items: MenuItems[] = [
 const protectedItems = (role: string) => {
     if (role === 'admin') {
         const menus = [...items];
-        menus.splice(1, 0, {
-            key: '/users',
-            icon: <Icon component={UserIcon} />,
-            label: <NavLink to="/users">Users</NavLink>,
-        });
+        menus.splice(
+            1,
+            0,
+            {
+                key: '/users',
+                icon: <Icon component={UserIcon} />,
+                label: <NavLink to="/users">Users</NavLink>,
+            },
+            {
+                key: '/restaurants',
+                icon: <Icon component={FoodIcon} />,
+                label: <NavLink to="/users">Restaurants</NavLink>,
+            },
+        );
         return menus;
     }
     return items;

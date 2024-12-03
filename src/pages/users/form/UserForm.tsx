@@ -1,8 +1,8 @@
 import { Card, Col, Form, FormInstance, Input, Row, Select, Space } from 'antd';
 import useTenants from '../../../hooks/useTenants';
-import { Tenant } from '../../../types';
+import { Tenant, User } from '../../../types';
 
-export default function UserForm({ form }: { form: FormInstance }) {
+export default function UserForm({ form }: { form: FormInstance; user?: User }) {
     const { data: tenants } = useTenants();
 
     return (
