@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { User, UserResponse } from '../../types';
 import Filter from '../../components/Filter';
 import { useAuthStore } from '../../store';
-import CreateDrawer from '../../components/CreateDrawer';
 import { useFilterStore } from '../../store/filter.store';
 import { PER_PAGE } from '../../consts';
+import UserForm from './UserForm';
 
 const columns = [
     {
@@ -106,7 +106,7 @@ export default function Users() {
                     }}
                 />
 
-                <CreateDrawer open={isOpen} setOpen={isOpenSet} />
+                <UserForm open={isOpen} setOpen={isOpenSet} />
             </div>
         </>
     );
