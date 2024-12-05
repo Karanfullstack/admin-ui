@@ -68,6 +68,7 @@ export default function Users() {
     const { data: users, isFetching } = useUser();
     const { query, setPagination } = useFilterStore();
     const userStore = useAuthStore((state) => state.user);
+
     if (userStore?.role !== 'admin') return <Navigate to="/" replace={false} />;
     return (
         <>

@@ -5,7 +5,7 @@ import { ReactNode, useMemo } from 'react';
 import { debounce } from 'lodash';
 export default function Filter({ children }: { children?: ReactNode }) {
     const { query, setRole, setSearch } = useFilterStore();
-
+    
     const deBounced = useMemo(() => {
         return debounce((searchedValue: string) => {
             setSearch(searchedValue);

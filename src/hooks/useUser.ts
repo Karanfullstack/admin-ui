@@ -2,6 +2,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import httpService from '../services/http-service';
 import { FetchResponse, UserResponse } from '../types';
 import { useFilterStore } from '../store/filter.store';
+import { PER_PAGE } from '../consts';
 
 const service = new httpService<UserResponse>('/users');
 export default function useUser() {
@@ -13,7 +14,7 @@ export default function useUser() {
                 params: {
                     q: query.searchText,
                     role: query.role,
-                    perPage: query.perPage || 6,
+                    perPage: query.perPage || PER_PAGE,
                     currentPage: query.currentPage,
                 },
             }),
