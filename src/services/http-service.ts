@@ -9,7 +9,9 @@ interface Entity {
 class httpService<T> {
     constructor(readonly endpoint: string) {}
     geAll(config?: AxiosRequestConfig) {
-        return client.get<FetchResponse<T>>(this.endpoint, config).then((res) => res.data);
+        return client
+            .get<FetchResponse<T>>(this.endpoint, config)
+            .then((res) => res.data);
     }
     getOne() {
         return client.get<T>(this.endpoint).then((res) => res.data);
@@ -20,8 +22,10 @@ class httpService<T> {
     create(payload: T) {
         return client.post<T>(this.endpoint, payload).then((res) => res.data);
     }
-    update(payload: T extends Entity ? T : never) {
-        return client.patch<T>(this.endpoint + payload.id, payload).then((res) => res.data);
+    update<T extends Entity>(payload: T) {
+        return client
+            .patch<T>(this.endpoint + '/' + payload.id, payload)
+            .then((res) => res.data);
     }
 }
 

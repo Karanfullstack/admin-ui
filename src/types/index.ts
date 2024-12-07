@@ -13,7 +13,7 @@ export interface User {
     lastName: string;
     email: string;
     role: string;
-    id?: number;
+    id: number;
     tenant?: Tenant;
     createdAt: string;
     updatedAt: string;

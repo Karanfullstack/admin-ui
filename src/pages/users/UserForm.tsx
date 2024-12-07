@@ -2,46 +2,68 @@ import { Button, Card, Col, Drawer, Form, Input, Row, Select, Space } from 'antd
 import useAddUser from '../../hooks/useAddUser';
 import { Tenant } from '../../types';
 import useTenants from '../../hooks/useTenants';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
+import { DispatchProps } from '../../reducers/updateReducer';
+import { ACTIONS } from '../../consts';
+import useUpdate from '../../hooks/useUpdate';
 
-export default memo(function UserForm({
-    open,
-    setOpen,
-}: {
-    open: boolean;
-    setOpen: (value: boolean) => void;
-}) {
+export default memo(function UserForm({ state, dispatch }: DispatchProps) {
     const { data: tenants } = useTenants();
     const addUser = useAddUser();
+    const updateUser = useUpdate();
     const [form] = Form.useForm();
+
+    useEffect(() => {
+        if (state.user) {
+            form.setFieldsValue({ ...state.user, tenantID: state.user.tenant?.id });
+        }
+    }, [state, dispatch, form]);
 
     const handleSubmit = async () => {
         await form.validateFields();
-        addUser.mutate(form.getFieldsValue());
-
-        if (!addUser.isPending) {
-            setOpen(false);
+        if (state.user && state.user !== null) {
+            const payload = { ...form.getFieldsValue(), id: state.user.id };
+            console.log(payload);
+            updateUser.mutate(payload);
+            if (!updateUser.isPending) {
+                dispatch({ type: ACTIONS.SET_OPEN, payload: false });
+            }
+        } else {
+            console.log('creating');
+            addUser.mutate(form.getFieldsValue());
+            if (!addUser.isPending) {
+                dispatch({ type: ACTIONS.SET_OPEN, payload: false });
+            }
         }
     };
 
-    console.log('karan');
     return (
         <Drawer
+            destroyOnClose
             loading={addUser.isPending}
             closable
-            title={'Create User'}
+            title={state.user ? 'Update User' : 'Create User'}
             placement="right"
             width={'600px'}
-            open={open}
-            onClose={() => setOpen(false)}
+            open={state.isOpen}
+            onClose={() => dispatch({ type: ACTIONS.SET_CLOSE_NULL })}
             extra={[
                 <Space key="drawer">
-                    <Button key="cancel" onClick={() => setOpen(false)}>
+                    <Button
+                        key="cancel"
+                        onClick={() => {
+                            if (state.user) {
+                                dispatch({ type: ACTIONS.SET_CLOSE_NULL });
+                                form.resetFields();
+                            }
+                            dispatch({ type: ACTIONS.SET_OPEN, payload: false });
+                        }}
+                    >
                         Cancel
                     </Button>
 
                     <Button onClick={handleSubmit} key="submit" type="primary">
-                        Save
+                        {state.user ? 'Update' : 'Save'}
                     </Button>
                 </Space>,
             ]}
@@ -101,6 +123,7 @@ export default memo(function UserForm({
                                             ]}
                                         >
                                             <Input
+                                             disabled={!!state.user}
                                                 autoComplete="email"
                                                 placeholder="example@gmail.com"
                                                 name="email"
@@ -110,29 +133,31 @@ export default memo(function UserForm({
                                 </Row>
                             </Card>
 
-                            <Card bordered={false} title="Security info">
-                                <Row gutter={8}>
-                                    <Col span={12}>
-                                        <Form.Item
-                                            name={'password'}
-                                            label="Password"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message: 'Password is required',
-                                                },
-                                            ]}
-                                        >
-                                            <Input
-                                                autoComplete="current-password"
-                                                type="password"
-                                                placeholder="*******"
-                                                name="password"
-                                            />
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                            </Card>
+                            {!state.user && (
+                                <Card bordered={false} title="Security info">
+                                    <Row gutter={8}>
+                                        <Col span={12}>
+                                            <Form.Item
+                                                name={'password'}
+                                                label="Password"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Password is required',
+                                                    },
+                                                ]}
+                                            >
+                                                <Input
+                                                    autoComplete="current-password"
+                                                    type="password"
+                                                    placeholder="*******"
+                                                    name="password"
+                                                />
+                                            </Form.Item>
+                                        </Col>
+                                    </Row>
+                                </Card>
+                            )}
 
                             <Card bordered={false} title="More options">
                                 <Row gutter={8}>

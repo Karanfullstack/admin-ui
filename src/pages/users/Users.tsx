@@ -1,14 +1,15 @@
-import { DoubleRightOutlined, PlusOutlined } from '@ant-design/icons';
+import { DoubleRightOutlined, PlusOutlined, EditOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Table, Typography } from 'antd';
 import { Link, Navigate } from 'react-router-dom';
 import useUser from '../../hooks/useUser';
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { User, UserResponse } from '../../types';
 import Filter from '../../components/Filter';
 import { useAuthStore } from '../../store';
 import { useFilterStore } from '../../store/filter.store';
-import { PER_PAGE } from '../../consts';
+import { ACTIONS, PER_PAGE } from '../../consts';
 import UserForm from './UserForm';
+import { updateReducer } from '../../reducers/updateReducer';
 
 const columns = [
     {
@@ -64,10 +65,10 @@ const columns = [
 ];
 
 export default function Users() {
-    const [isOpen, isOpenSet] = useState(false);
     const { data: users, isFetching } = useUser();
     const { query, setPagination } = useFilterStore();
     const userStore = useAuthStore((state) => state.user);
+    const [state, dispatch] = useReducer(updateReducer, { user: null, isOpen: false });
 
     if (userStore?.role !== 'admin') return <Navigate to="/" replace={false} />;
     return (
@@ -83,7 +84,12 @@ export default function Users() {
             <div className="p-3 mt-3">
                 <Filter>
                     <Button
-                        onClick={() => isOpenSet((prev) => !prev)}
+                        onClick={() =>
+                            dispatch({
+                                type: ACTIONS.SET_OPEN,
+                                payload: true,
+                            })
+                        }
                         icon={<PlusOutlined />}
                         type="primary"
                     >
@@ -93,7 +99,31 @@ export default function Users() {
                 <Table
                     loading={isFetching}
                     rowKey={(record: UserResponse) => record.id!}
-                    columns={columns}
+                    columns={[
+                        ...columns,
+                        {
+                            title: 'Action',
+                            key: 'action',
+                            render: (_text: string, render: User) => {
+                                return (
+                                    <Button
+                                        icon={<EditOutlined />}
+                                        onClick={() => {
+                                            dispatch({
+                                                type: ACTIONS.SET_USER,
+                                                payload: render,
+                                            });
+                                            dispatch({
+                                                type: ACTIONS.SET_OPEN,
+                                                payload: true,
+                                            });
+                                        }}
+                                        type="link"
+                                    />
+                                );
+                            },
+                        },
+                    ]}
                     dataSource={users?.data}
                     pagination={{
                         position: ['bottomLeft'],
@@ -106,7 +136,7 @@ export default function Users() {
                     }}
                 />
 
-                <UserForm open={isOpen} setOpen={isOpenSet} />
+                <UserForm state={state} dispatch={dispatch} />
             </div>
         </>
     );
