@@ -123,7 +123,7 @@ export default memo(function UserForm({ state, dispatch }: DispatchProps) {
                                             ]}
                                         >
                                             <Input
-                                             disabled={!!state.user}
+                                                disabled={!!state.user}
                                                 autoComplete="email"
                                                 placeholder="example@gmail.com"
                                                 name="email"

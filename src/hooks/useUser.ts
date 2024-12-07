@@ -1,7 +1,7 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import httpService from '../services/http-service';
 import { FetchResponse, UserResponse } from '../types';
-import { useFilterStore } from '../store/filter.store';
+import { useFilterStore } from '../store/userFilterStore';
 import { PER_PAGE } from '../consts';
 
 const service = new httpService<UserResponse>('/users');

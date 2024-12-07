@@ -57,7 +57,7 @@ const protectedItems = (role: string) => {
             {
                 key: '/restaurants',
                 icon: <Icon component={FoodIcon} />,
-                label: <NavLink to="/users">Restaurants</NavLink>,
+                label: <NavLink to="/restaurants">Restaurants</NavLink>,
             },
         );
         return menus;
