@@ -28,12 +28,14 @@ export default memo(function UserForm({ state, dispatch }: DispatchProps) {
             if (!updateUser.isPending) {
                 dispatch({ type: ACTIONS.SET_OPEN, payload: false });
             }
+            return;
         } else {
             console.log('creating');
             addUser.mutate(form.getFieldsValue());
             if (!addUser.isPending) {
                 dispatch({ type: ACTIONS.SET_OPEN, payload: false });
             }
+            return;
         }
     };
 

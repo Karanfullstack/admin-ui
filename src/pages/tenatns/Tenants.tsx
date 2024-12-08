@@ -7,6 +7,8 @@ import { Tenant } from '../../types';
 import TenantForm from './TenantForm';
 import { useReducer } from 'react';
 import { updateReducer } from '../../reducers/updateReducer';
+import { useTenantStore } from '../../store/tenantFilterStore';
+import { ACTIONS, PER_PAGE } from '../../consts';
 
 const columns = [
     {
@@ -38,7 +40,7 @@ const columns = [
 export default function Tenants() {
     const { data, isFetching } = useTenants();
     const [state, dispatch] = useReducer(updateReducer, { tenants: null, isOpen: false });
-	console.log('tenanefeeeft')
+    const { query, setPagination } = useTenantStore();
     return (
         <>
             <Breadcrumb
@@ -61,9 +63,22 @@ export default function Tenants() {
                         {
                             title: 'Action',
                             key: 'action',
-                            render: () => {
+                            render: (_text: string, render: Tenant) => {
                                 return (
-                                    <Button icon={<EditOutlined />} type="link">
+                                    <Button
+                                        onClick={() => {
+                                            dispatch({
+                                                type: ACTIONS.SET_OPEN,
+                                                payload: true,
+                                            });
+                                            dispatch({
+                                                type: ACTIONS.SET_TENANT,
+                                                payload: render,
+                                            });
+                                        }}
+                                        icon={<EditOutlined />}
+                                        type="link"
+                                    >
                                         Edit
                                     </Button>
                                 );
@@ -71,6 +86,15 @@ export default function Tenants() {
                         },
                     ]}
                     dataSource={data?.data}
+                    pagination={{
+                        position: ['bottomLeft'],
+                        current: query.currentPage,
+                        pageSize: query.perPage || PER_PAGE,
+                        total: data?.total,
+                        onChange: (currentPage, perPage) => {
+                            setPagination(currentPage, perPage);
+                        },
+                    }}
                 />
             </div>
         </>

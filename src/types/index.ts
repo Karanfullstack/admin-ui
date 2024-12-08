@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 export type Tenant = {
-    id?: number;
+    id: number;
     name: string;
     address: string;
     createdAt?: string;

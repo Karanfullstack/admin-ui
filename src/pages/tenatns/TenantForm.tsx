@@ -3,17 +3,37 @@ import { PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { DispatchProps } from '../../reducers/updateReducer';
 import { ACTIONS } from '../../consts';
 import useAddTenant from '../../hooks/addTenants';
+import { useEffect } from 'react';
+import useUpdateTenant from '../../hooks/useUpdateTenant';
 
 const TenantForm = ({ state, dispatch }: DispatchProps) => {
     const [form] = Form.useForm();
     const addTenant = useAddTenant();
+    const updateTenant = useUpdateTenant();
+    useEffect(() => {
+        if (state.tenants && state.isOpen) {
+            form.setFieldsValue(state.tenants);
+        }
+    }, [state.isOpen, form, state.tenants]);
+
     const handleSubmit = async () => {
         await form.validateFields();
-        addTenant.mutate(form.getFieldsValue());
-        console.log(form.getFieldsValue());
-        if (addTenant.isSuccess) {
-            dispatch({ type: ACTIONS.SET_OPEN, payload: false });
-            form.resetFields();
+
+        if (state.tenants && state.isOpen) {
+            await updateTenant.mutateAsync({
+                ...form.getFieldsValue(),
+                id: state.tenants.id,
+            });
+            if (!updateTenant.isPending) {
+                dispatch({ type: ACTIONS.SET_CLOSE_NULL });
+                form.resetFields();
+            }
+        } else {
+            await addTenant.mutateAsync(form.getFieldsValue());
+            if (!addTenant.isPending) {
+                dispatch({ type: ACTIONS.SET_CLOSE_NULL });
+                form.resetFields();
+            }
         }
     };
     return (
@@ -32,7 +52,6 @@ const TenantForm = ({ state, dispatch }: DispatchProps) => {
             </Button>
             <Modal
                 destroyOnClose
-                loading={addTenant.isPending}
                 open={state.isOpen}
                 onClose={() => {
                     dispatch({
@@ -49,11 +68,12 @@ const TenantForm = ({ state, dispatch }: DispatchProps) => {
                 title={<Typography.Text>Add Restaurant Details</Typography.Text>}
                 footer={
                     <Button
+                        loading={updateTenant.isPending || addTenant.isPending}
                         onClick={handleSubmit}
                         icon={<PlusCircleOutlined />}
                         type="primary"
                     >
-                        ADD
+                        {state.tenants ? 'Save' : 'ADD'}
                     </Button>
                 }
             >
