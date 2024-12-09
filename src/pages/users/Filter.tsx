@@ -1,11 +1,12 @@
 import { Card, Col, Flex, Input, Row, Select } from 'antd';
 
-import { useFilterStore } from '../store/filter.store';
-import { ReactNode, useMemo } from 'react';
 import { debounce } from 'lodash';
+import { ReactNode, useMemo } from 'react';
+import { useFilterStore } from '../../store/userFilterStore';
+
 export default function Filter({ children }: { children?: ReactNode }) {
     const { query, setRole, setSearch } = useFilterStore();
-    
+
     const deBounced = useMemo(() => {
         return debounce((searchedValue: string) => {
             setSearch(searchedValue);
@@ -27,7 +28,7 @@ export default function Filter({ children }: { children?: ReactNode }) {
                             <Flex gap={10}>
                                 <Select
                                     allowClear
-                                    onChange={(value) => setRole(value)}
+                                    onChange={(value) => setRole!(value)}
                                     value={query.role}
                                     className="w-full"
                                     placeholder="Role"

@@ -1,21 +1,8 @@
 import { create } from 'zustand';
 import { PER_PAGE } from '../consts';
+import { QueryFilterStore } from './types';
 
-interface QueryFilter {
-    searchText?: string;
-    role?: string;
-    perPage?: number;
-    currentPage?: number;
-}
-
-interface QueryFilterStore {
-    query: QueryFilter;
-    setSearch: (searchText: string) => void;
-    setRole: (role: string) => void;
-    setPagination: (currentPage: number, perPage: number) => void;
-}
-
-export const useFilterStore = create<QueryFilterStore>((set) => ({
+export const useTenantStore = create<QueryFilterStore>((set) => ({
     query: {},
     setSearch: (searchText: string) => set(() => ({ query: { searchText } })),
     setRole: (role: string) =>

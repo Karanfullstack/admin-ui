@@ -4,8 +4,8 @@ export type Tenant = {
     id: number;
     name: string;
     address: string;
-    createdAt: string;
-    updateAt: string;
+    createdAt?: string;
+    updateAt?: string;
 };
 
 export interface User {
@@ -53,4 +53,5 @@ export interface FetchResponse<T> {
 
 export enum Cache_Keys {
     USERS = 'users',
+    TENANTS = 'tenants',
 }
