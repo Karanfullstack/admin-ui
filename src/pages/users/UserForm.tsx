@@ -12,7 +12,8 @@ export default memo(function UserForm({ state, dispatch }: DispatchProps) {
     const addUser = useAddUser();
     const updateUser = useUpdate();
     const [form] = Form.useForm();
-
+    const role = Form.useWatch('role', form);
+    console.log(role);
     useEffect(() => {
         if (state.user) {
             form.setFieldsValue({ ...state.user, tenantID: state.user.tenant?.id });
@@ -184,38 +185,39 @@ export default memo(function UserForm({ state, dispatch }: DispatchProps) {
                                                 <Select.Option value="manager">
                                                     Manager
                                                 </Select.Option>
-                                                <Select.Option value="customer">
-                                                    Customer
-                                                </Select.Option>
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col span={12}>
-                                        <Form.Item
-                                            name="tenantID"
-                                            rules={[
-                                                {
-                                                    required: false,
-                                                    message: 'Tenant is required',
-                                                },
-                                            ]}
-                                        >
-                                            <Select
-                                                className="w-full"
-                                                allowClear
-                                                placeholder="Restaurants"
+                                    {role === 'manager' && (
+                                        <Col span={12}>
+                                            <Form.Item
+                                                name="tenantID"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: 'Tenant is required',
+                                                    },
+                                                ]}
                                             >
-                                                {tenants?.data.map((tenant: Tenant) => (
-                                                    <Select.Option
-                                                        key={tenant.id}
-                                                        value={tenant.id}
-                                                    >
-                                                        {tenant.name}
-                                                    </Select.Option>
-                                                ))}
-                                            </Select>
-                                        </Form.Item>
-                                    </Col>
+                                                <Select
+                                                    className="w-full"
+                                                    allowClear
+                                                    placeholder="Restaurants"
+                                                >
+                                                    {tenants?.data.map(
+                                                        (tenant: Tenant) => (
+                                                            <Select.Option
+                                                                key={tenant.id}
+                                                                value={tenant.id}
+                                                            >
+                                                                {tenant.name}
+                                                            </Select.Option>
+                                                        ),
+                                                    )}
+                                                </Select>
+                                            </Form.Item>
+                                        </Col>
+                                    )}
                                 </Row>
                             </Card>
                         </Space>
