@@ -41,6 +41,7 @@ export default function Tenants() {
     const { data, isFetching } = useTenants();
     const [state, dispatch] = useReducer(updateReducer, { tenants: null, isOpen: false });
     const { query, setPagination } = useTenantStore();
+
     return (
         <>
             <Breadcrumb

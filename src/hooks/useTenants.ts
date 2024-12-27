@@ -12,6 +12,8 @@ export default function useTenants() {
             service.geAll.bind(service)({
                 params: {
                     q: query.searchText,
+                    currentPage: query.currentPage,
+                    perPage: query.perPage,
                 },
             }),
     });
