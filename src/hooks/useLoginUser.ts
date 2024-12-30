@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import httpService from '../services/http-service';
 import { LoginType } from '../types';
 
-const service = new httpService<LoginType>('/auth/login');
+const service = new httpService<LoginType>('/api/auth/auth/login');
 const useLoginUser = () => {
     return useMutation({
         mutationKey: ['login'],

@@ -5,7 +5,7 @@ import { Cache_Keys, Tenant } from '../types';
 interface TenantContext {
     previousUsers: Tenant[];
 }
-const service = new httpService<Tenant>('/tenants');
+const service = new httpService<Tenant>('/api/auth/tenants');
 
 export default function useUpdateTenant() {
     const queryClient = useQueryClient();

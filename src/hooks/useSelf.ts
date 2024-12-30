@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import httpService from '../services/http-service';
 import { UserResponse } from '../types';
 
-const service = new httpService<UserResponse>('/auth/self');
+const service = new httpService<UserResponse>('/api/auth/auth/self');
 const useSelf = (enabled: boolean = false) => {
     return useQuery<UserResponse, Error>({
         queryKey: ['self'],
