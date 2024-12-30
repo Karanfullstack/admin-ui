@@ -1,6 +1,6 @@
 import Icon, { BellFilled } from '@ant-design/icons';
 import { Avatar, Badge, Dropdown, Flex, Layout, Menu, theme } from 'antd';
-import { Content, Footer, Header } from 'antd/es/layout/layout';
+import { Content, Header } from 'antd/es/layout/layout';
 import { ReactNode, useState } from 'react';
 import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom';
 import {
@@ -34,7 +34,7 @@ const items: MenuItems[] = [
     {
         key: '/products',
         icon: <Icon component={ProductIcon} />,
-        label: <NavLink to="/users">Products</NavLink>,
+        label: <NavLink to="/products">Products</NavLink>,
     },
     {
         key: '/promos',
@@ -149,7 +149,6 @@ export default function PrivateRoutes() {
                     <Content style={{ margin: '25px 25px' }}>
                         <Outlet />
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>Restaurant Hub</Footer>
                 </Layout>
             </Layout>
         </>
