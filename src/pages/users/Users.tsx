@@ -64,13 +64,15 @@ const columns = [
     },
 ];
 
+
 export default function Users() {
     const { data: users, isFetching } = useUser();
     const { query, setPagination } = useFilterStore();
     const userStore = useAuthStore((state) => state.user);
     const [state, dispatch] = useReducer(updateReducer, { user: null, isOpen: false });
-
+    
     if (userStore?.role !== 'admin') return <Navigate to="/" replace={false} />;
+
     return (
         <>
             <Breadcrumb
