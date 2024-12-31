@@ -1,7 +1,7 @@
 import Icon, { BellFilled } from '@ant-design/icons';
 import { Avatar, Badge, Dropdown, Flex, Layout, Menu, theme } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom';
 import {
     HomeIcon,
@@ -76,6 +76,9 @@ export default function PrivateRoutes() {
         token: { colorBgContainer },
     } = theme.useToken();
 
+    useEffect(() => {
+        localStorage.setItem('path', location.pathname);
+    }, [location.pathname]);
     if (user === null) {
         return (
             <Navigate to={`/auth/login?returnTo=${location.pathname}`} replace={true} />
