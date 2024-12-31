@@ -13,7 +13,7 @@ const useSelf = (enabled: boolean = false) => {
             if (error instanceof AxiosError && error.response?.status === 401) {
                 return false;
             }
-            return failureCount < 2;
+            return failureCount < 0;
         },
         // refetchOnWindowFocus: false
     });
