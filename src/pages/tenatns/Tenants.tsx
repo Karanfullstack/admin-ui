@@ -51,7 +51,7 @@ export default function Tenants() {
                     { title: 'Restaurants' },
                 ]}
             />
-            <div className="p-3 m-3">
+            <div className="pt-3 m-3">
                 <TenantFilter>
                     <TenantForm dispatch={dispatch} state={state} />
                 </TenantFilter>

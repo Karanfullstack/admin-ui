@@ -12,14 +12,14 @@ export default function ProductFilter({ children }: Props) {
     const { data: restaurants } = useTenants();
     const { data: categories } = useCategories();
     const tenatnStore = useTenantStore((store) => store.setPagination);
-
+    
     useEffect(() => {
         tenatnStore(1, 20);
         return () => tenatnStore(1, 6);
     }, [tenatnStore]);
 
     return (
-        <Card size="small" className="mt-3 w-full">
+        <Card size="small" className="mb-4 w-full">
             <Row justify={'space-between'}>
                 <Col span={22}>
                     <Row className="gap-2">

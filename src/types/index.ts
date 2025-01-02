@@ -59,6 +59,16 @@ export interface Category {
     ];
 }
 
+export interface Product {
+    _id?: string;
+    name: string;
+    description: string;
+    image: { image: string; public_id: string };
+    category: Category;
+    isPublish: boolean;
+    tenantId: number;
+}
+
 export interface FetchResponse<T> {
     data: T[];
     total: number;

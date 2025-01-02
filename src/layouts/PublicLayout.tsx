@@ -3,7 +3,7 @@ import { useAuthStore } from '../store';
 
 export default function PublicLayout() {
     const { user } = useAuthStore();
-    const returnTo = localStorage.getItem('path') ?? '/auth/login';
+    const returnTo = localStorage.getItem('path') || '/';
     if (user !== null) {
         return <Navigate to={returnTo} replace={false} />;
     }
