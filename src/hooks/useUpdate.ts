@@ -5,7 +5,7 @@ import { Cache_Keys, User } from '../types';
 interface UserContext {
     previousUsers: User[];
 }
-const service = new httpService<User>('/users');
+const service = new httpService<User>('/api/auth/users');
 
 export default function useUpdate() {
     const queryClient = useQueryClient();

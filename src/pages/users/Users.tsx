@@ -1,6 +1,6 @@
 import { DoubleRightOutlined, PlusOutlined, EditOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Table, Typography } from 'antd';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useUser from '../../hooks/useUser';
 import { useReducer } from 'react';
 import { User, UserResponse } from '../../types';
@@ -70,7 +70,11 @@ export default function Users() {
     const userStore = useAuthStore((state) => state.user);
     const [state, dispatch] = useReducer(updateReducer, { user: null, isOpen: false });
 
-    if (userStore?.role !== 'admin') return <Navigate to="/" replace={false} />;
+    if (userStore?.role !== 'admin') {
+        window.location.replace('/');
+        return;
+    }
+
     return (
         <>
             <Breadcrumb

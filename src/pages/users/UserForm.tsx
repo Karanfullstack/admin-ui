@@ -6,6 +6,7 @@ import { memo, useEffect } from 'react';
 import { DispatchProps } from '../../reducers/updateReducer';
 import { ACTIONS } from '../../consts';
 import useUpdate from '../../hooks/useUpdate';
+import { useFilterStore } from '../../store/userFilterStore';
 
 export default memo(function UserForm({ state, dispatch }: DispatchProps) {
     const { data: tenants } = useTenants();
@@ -13,7 +14,8 @@ export default memo(function UserForm({ state, dispatch }: DispatchProps) {
     const updateUser = useUpdate();
     const [form] = Form.useForm();
     const role = Form.useWatch('role', form);
-    console.log(role);
+    const resetPaginate = useFilterStore((store) => store.setPagination);
+
     useEffect(() => {
         if (state.user) {
             form.setFieldsValue({ ...state.user, tenantID: state.user.tenant?.id });
@@ -35,6 +37,7 @@ export default memo(function UserForm({ state, dispatch }: DispatchProps) {
             addUser.mutate(form.getFieldsValue());
             if (!addUser.isPending) {
                 dispatch({ type: ACTIONS.SET_OPEN, payload: false });
+                resetPaginate(1, 6);
             }
             return;
         }

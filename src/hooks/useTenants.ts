@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import httpService from '../services/http-service';
 import { Cache_Keys, FetchResponse, Tenant } from '../types';
 import { useTenantStore } from '../store/tenantFilterStore';
-const service = new httpService<Tenant>('/tenants');
+const service = new httpService<Tenant>('/api/auth/tenants');
 
 export default function useTenants() {
     const { query } = useTenantStore();

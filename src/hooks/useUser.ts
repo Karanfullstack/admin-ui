@@ -4,7 +4,7 @@ import { FetchResponse, UserResponse } from '../types';
 import { useFilterStore } from '../store/userFilterStore';
 import { PER_PAGE } from '../consts';
 
-const service = new httpService<UserResponse>('/users');
+const service = new httpService<UserResponse>('/api/auth/users');
 export default function useUser() {
     const query = useFilterStore((state) => state.query);
     return useQuery<FetchResponse<UserResponse>>({

@@ -43,6 +43,22 @@ export enum Status {
     PREPARING = 'Preparing',
 }
 
+export interface Category {
+    _id: string;
+    name: string;
+    priceConfiguration: {
+        [key: string]: {
+            priceType: string;
+            availableOptions: string[];
+        };
+    };
+    attributes: [
+        name: string,
+        widgetType: 'radio' | 'switch',
+        availableOptions: string[],
+    ];
+}
+
 export interface FetchResponse<T> {
     data: T[];
     total: number;
@@ -54,4 +70,6 @@ export interface FetchResponse<T> {
 export enum Cache_Keys {
     USERS = 'users',
     TENANTS = 'tenants',
+    CATEGORIES = 'categories',
+    PRODUCTS = 'products',
 }

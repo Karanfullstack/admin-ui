@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import httpService from '../services/http-service';
 import { UserResponse } from '../types';
 
-const service = new httpService<UserResponse>('/auth/self');
+const service = new httpService<UserResponse>('/api/auth/auth/self');
 const useSelf = (enabled: boolean = false) => {
     return useQuery<UserResponse, Error>({
         queryKey: ['self'],
@@ -13,7 +13,7 @@ const useSelf = (enabled: boolean = false) => {
             if (error instanceof AxiosError && error.response?.status === 401) {
                 return false;
             }
-            return failureCount < 2;
+            return failureCount < 0;
         },
         // refetchOnWindowFocus: false
     });

@@ -1,12 +1,11 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../store';
 
 export default function PublicLayout() {
     const { user } = useAuthStore();
-    const location = useLocation();
-    const returnTo = new URLSearchParams(location.search).get('returnTo') ?? '/';
+    const returnTo = localStorage.getItem('path') ?? '/auth/login';
     if (user !== null) {
-        return <Navigate to={returnTo} replace={true} />;
+        return <Navigate to={returnTo} replace={false} />;
     }
     return <Outlet />;
 }
