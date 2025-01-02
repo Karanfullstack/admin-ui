@@ -11,6 +11,7 @@ const useLogout = () => {
         mutationKey: ['logout'],
         onSuccess: async () => {
             logoutFromStore();
+            localStorage.removeItem('path');
         },
     });
     return { logoutUser: mutate };
