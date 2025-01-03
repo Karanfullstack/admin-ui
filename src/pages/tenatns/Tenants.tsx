@@ -1,14 +1,15 @@
 import { Breadcrumb, Button, Table, Typography } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { DoubleRightOutlined, EditOutlined } from '@ant-design/icons';
 import TenantFilter from './TenantFilter';
 import useTenants from '../../hooks/useTenants';
-import { Tenant } from '../../types';
+import { Roles, Tenant } from '../../types';
 import TenantForm from './TenantForm';
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { updateReducer } from '../../reducers/updateReducer';
 import { useTenantStore } from '../../store/tenantFilterStore';
 import { ACTIONS, PER_PAGE } from '../../consts';
+import { useAuthStore } from '../../store';
 
 const columns = [
     {
@@ -41,7 +42,14 @@ export default function Tenants() {
     const { data, isFetching } = useTenants();
     const [state, dispatch] = useReducer(updateReducer, { tenants: null, isOpen: false });
     const { query, setPagination } = useTenantStore();
+    const user = useAuthStore((state) => state.user);
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        if (user?.role !== Roles.ADMIN) {
+            navigate('/');
+        }
+    }, [user, navigate]);
     return (
         <>
             <Breadcrumb
