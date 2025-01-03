@@ -17,7 +17,7 @@ export default function ProductFilter({ children }: Props) {
     const { query, setSearch, setCategory, setRestaurant, setPublish } =
         useProductStore();
 
-    // for reseting the tenants pagination as it conflicts
+    // for reseting the tenants pagination as it conflicts while selecting in products menu
     useEffect(() => {
         tenatnStore(1, 20);
         return () => tenatnStore(1, 6);
@@ -34,7 +34,7 @@ export default function ProductFilter({ children }: Props) {
                 <Col span={22}>
                     <Row className="gap-2">
                         <Col span={7}>
-                            <Input.Search
+                            <Input.Search allowClear
                                 onChange={(value) => deBounced(value.target.value)}
                                 placeholder="Search products.."
                             />

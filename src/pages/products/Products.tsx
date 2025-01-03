@@ -35,7 +35,7 @@ const columns = [
         title: 'Status',
         dataIndex: 'isPublish',
         key: 'isPublish',
-        render: (text: string, record: Product) => {
+        render: (_text: string, record: Product) => {
             return (
                 <Tag color={`${record.isPublish ? 'green' : 'blue'}`}>
                     {record?.isPublish ? 'Published' : 'Drafted'}
@@ -48,7 +48,7 @@ const columns = [
         title: 'Category',
         dataIndex: 'category',
         key: 'category',
-        render: (text: string, record: Product) => (
+        render: (_text: string, record: Product) => (
             <Typography>{record?.category.name}</Typography>
         ),
     },
@@ -57,14 +57,14 @@ const columns = [
         title: 'Restaurant',
         dataIndex: 'tenantId',
         key: 'tenantId',
-        render: (text: string, record: Product) => <TenantData id={record.tenantId} />,
+        render: (_text: string, record: Product) => <TenantData id={record.tenantId} />,
     },
 ];
 
 export default function Products() {
     const { data: products, isFetching } = useProducts();
     const { query, setPagination } = useProductStore();
-
+    
     return (
         <>
             <Breadcrumb
@@ -89,7 +89,7 @@ export default function Products() {
                         total: products?.total,
                         current: query.currentPage,
                         pageSize: query.perPage || 4,
-                        size:"default",
+                        size: 'default',
                         onChange: (currentPage, perPage) => {
                             setPagination(currentPage, perPage);
                         },

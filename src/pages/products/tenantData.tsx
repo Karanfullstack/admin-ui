@@ -1,4 +1,4 @@
-import { Typography } from 'antd';
+import { Tag, Typography } from 'antd';
 import useTenants from '../../hooks/useTenants';
 
 export default function TenantData({ id }: { id: number }) {
@@ -6,6 +6,6 @@ export default function TenantData({ id }: { id: number }) {
     const { data } = useTenants();
     const restaurant = data?.data.find((t) => t.id === mainId);
     if (restaurant && restaurant.name)
-        return <Typography.Text>{restaurant?.name}</Typography.Text>;
+        return <Tag color='orange'><Typography.Text>{restaurant?.name}</Typography.Text></Tag>;
     return <Typography.Text>{'NA'}</Typography.Text>;
 }
