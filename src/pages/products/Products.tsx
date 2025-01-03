@@ -5,6 +5,7 @@ import useProducts from '../../hooks/useProducts';
 import ProductFilter from './ProductFilter';
 import { Product } from '../../types';
 import TenantData from './tenantData';
+import { useProductStore } from '../../store/productFilterStore';
 
 const columns = [
     {
@@ -61,7 +62,8 @@ const columns = [
 ];
 
 export default function Products() {
-    const { data: products } = useProducts();
+    const { data: products, isFetching } = useProducts();
+    const { query, setPagination } = useProductStore();
 
     return (
         <>
@@ -77,9 +79,21 @@ export default function Products() {
                 <ProductFilter children={<Button type="primary">Add</Button>} />
 
                 <Table
+                    loading={isFetching}
+                    size="small"
                     columns={columns}
                     rowKey={(record: Product) => record._id!}
                     dataSource={products?.data}
+                    pagination={{
+                        position: ['bottomLeft'],
+                        total: products?.total,
+                        current: query.currentPage,
+                        pageSize: query.perPage || 4,
+                        size:"default",
+                        onChange: (currentPage, perPage) => {
+                            setPagination(currentPage, perPage);
+                        },
+                    }}
                 />
             </div>
         </>
