@@ -32,9 +32,7 @@ const columns = [
         title: 'Restaurant Address',
         dataIndex: 'address',
         key: 'address',
-        render: (text: string) => (
-            <Typography.Text className=" capitalize">{text}</Typography.Text>
-        ),
+        render: (text: string) => <Typography.Text className=" capitalize">{text}</Typography.Text>,
     },
 ];
 

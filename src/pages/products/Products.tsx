@@ -1,11 +1,14 @@
 import { DoubleRightOutlined } from '@ant-design/icons';
-import { Breadcrumb, Button, Image, Space, Table, Tag, Typography } from 'antd';
+import { Breadcrumb, Image, Space, Table, Tag, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import useProducts from '../../hooks/useProducts';
 import ProductFilter from './ProductFilter';
 import { Product } from '../../types';
 import TenantData from './tenantData';
 import { useProductStore } from '../../store/productFilterStore';
+import ProductForm from './ProductForm';
+import { useReducer } from 'react';
+import { updateReducer } from '../../reducers/updateReducer';
 
 const columns = [
     {
@@ -26,9 +29,7 @@ const columns = [
         title: 'Description',
         dataIndex: 'description',
         key: 'description',
-        render: (text: string) => (
-            <Typography className="max-w-md w-full">{text}</Typography>
-        ),
+        render: (text: string) => <Typography className="max-w-md w-full">{text}</Typography>,
     },
 
     {
@@ -64,7 +65,10 @@ const columns = [
 export default function Products() {
     const { data: products, isFetching } = useProducts();
     const { query, setPagination } = useProductStore();
-    
+    const [state, dispatch] = useReducer(updateReducer, {
+        products: null,
+        isOpen: false,
+    });
     return (
         <>
             <Breadcrumb
@@ -76,7 +80,9 @@ export default function Products() {
             />
 
             <div className="pt-3 m-3">
-                <ProductFilter children={<Button type="primary">Add</Button>} />
+                <ProductFilter>
+                    <ProductForm dispatch={dispatch} state={state} />
+                </ProductFilter>
 
                 <Table
                     loading={isFetching}
