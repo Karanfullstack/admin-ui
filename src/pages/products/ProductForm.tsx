@@ -18,7 +18,8 @@ import { DispatchProps } from '../../reducers/updateReducer';
 import useCategories from '../../hooks/useCategories';
 import useTenants from '../../hooks/useTenants';
 import { Tenant } from '../../types';
-import Pricing from './pricing';
+import Pricing from './Pricing';
+import Attributes from './attributes';
 
 export default function ProductForm({ state, dispatch }: DispatchProps) {
     const [form] = Form.useForm();
@@ -155,7 +156,10 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
                             </Card>
                             {/* Pricing Attributes*/}
                             {pricingCategoryAttributes && (
-                                <Pricing category={pricingCategoryAttributes} />
+                                <>
+                                    <Pricing category={pricingCategoryAttributes} />
+                                    <Attributes category={pricingCategoryAttributes} />
+                                </>
                             )}
 
                             {/* Restaurant info */}
@@ -174,7 +178,7 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
 
                             {/* Publish attribute */}
                             <Card title="Additional attributes" bordered={false} className="mt-4">
-                                <Form.Item name="isPublish">
+                                <Form.Item name="isPublish" valuePropName="checked">
                                     <Switch
                                         defaultChecked
                                         checkedChildren="Yes"

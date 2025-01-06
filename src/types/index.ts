@@ -53,9 +53,13 @@ export interface Category {
         };
     };
     attributes: [
-        name: string,
-        widgetType: 'radio' | 'switch',
-        availableOptions: string[],
+        {
+            _id?: string;
+            name: string;
+            widgetType: 'radio' | 'switch';
+            availableOptions: string[];
+            defaultValue: string | boolean;
+        },
     ];
 }
 
