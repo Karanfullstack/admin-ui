@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { Tenant, User } from '../types';
+import { Product, Tenant, User } from '../types';
 import { ACTIONS } from '../consts';
 
 export interface DispatchProps {
@@ -10,12 +10,18 @@ export interface DispatchProps {
 interface State {
     user?: User | null;
     tenants?: Tenant | null;
+    products?: Product | null;
     isOpen: boolean;
 }
 
 interface UserAction {
     type: ACTIONS.SET_USER;
     payload: User | null;
+}
+
+interface ProductAction {
+    type: ACTIONS.SET_PRODUCT;
+    payload: Product | null;
 }
 
 interface TenantAction {
@@ -29,7 +35,7 @@ interface OpenAction {
 interface CloseNullAction {
     type: ACTIONS.SET_CLOSE_NULL;
 }
-type Action = OpenAction | UserAction | TenantAction | CloseNullAction;
+type Action = OpenAction | UserAction | TenantAction | ProductAction | CloseNullAction;
 
 export const updateReducer = (state: State, action: Action): State => {
     switch (action.type) {
@@ -39,6 +45,8 @@ export const updateReducer = (state: State, action: Action): State => {
             return { ...state, tenants: action.payload };
         case ACTIONS.SET_OPEN:
             return { ...state, isOpen: action.payload };
+        case ACTIONS.SET_PRODUCT:
+            return { ...state, products: action.payload };
         case ACTIONS.SET_CLOSE_NULL:
             return { user: null, tenants: null, isOpen: false };
         default:

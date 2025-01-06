@@ -1,15 +1,15 @@
-import { DoubleRightOutlined, PlusOutlined, EditOutlined } from '@ant-design/icons';
+import { DoubleRightOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Table, Typography } from 'antd';
-import { Link } from 'react-router-dom';
-import useUser from '../../hooks/useUser';
 import { useReducer } from 'react';
-import { User, UserResponse } from '../../types';
-import Filter from './Filter';
+import { Link } from 'react-router-dom';
+import { ACTIONS, PER_PAGE } from '../../consts';
+import useUser from '../../hooks/useUser';
+import { updateReducer } from '../../reducers/updateReducer';
 import { useAuthStore } from '../../store';
 import { useFilterStore } from '../../store/userFilterStore';
-import { ACTIONS, PER_PAGE } from '../../consts';
+import { User, UserResponse } from '../../types';
+import Filter from './Filter';
 import UserForm from './UserForm';
-import { updateReducer } from '../../reducers/updateReducer';
 
 const columns = [
     {
@@ -97,7 +97,7 @@ export default function Users() {
                         icon={<PlusOutlined />}
                         type="primary"
                     >
-                        ADD USER
+                        ADD
                     </Button>
                 </Filter>
                 <Table

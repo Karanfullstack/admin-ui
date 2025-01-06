@@ -10,6 +10,7 @@ const TenantForm = ({ state, dispatch }: DispatchProps) => {
     const [form] = Form.useForm();
     const addTenant = useAddTenant();
     const updateTenant = useUpdateTenant();
+    
     useEffect(() => {
         if (state.tenants && state.isOpen) {
             form.setFieldsValue(state.tenants);

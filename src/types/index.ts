@@ -53,10 +53,24 @@ export interface Category {
         };
     };
     attributes: [
-        name: string,
-        widgetType: 'radio' | 'switch',
-        availableOptions: string[],
+        {
+            _id?: string;
+            name: string;
+            widgetType: 'radio' | 'switch';
+            availableOptions: string[];
+            defaultValue: string | boolean;
+        },
     ];
+}
+
+export interface Product {
+    _id?: string;
+    name: string;
+    description: string;
+    image: { image: string; public_id: string };
+    category: Category;
+    isPublish: boolean;
+    tenantId: number;
 }
 
 export interface FetchResponse<T> {

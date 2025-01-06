@@ -1,5 +1,4 @@
 import { Card, Col, Input, Row } from 'antd';
-
 import { debounce } from 'lodash';
 import { ReactNode, useMemo } from 'react';
 import { useTenantStore } from '../../store/tenantFilterStore';
@@ -21,7 +20,7 @@ export default function TenantFilter({ children }: { children?: ReactNode }) {
                         <Col span={14}>
                             <Input.Search
                                 onChange={(value) => deBounced(value.target.value)}
-                                placeholder="Search user"
+                                placeholder="Search Restaurants"
                             />
                         </Col>
                     </Row>
