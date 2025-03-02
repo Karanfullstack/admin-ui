@@ -56,7 +56,7 @@ export interface Category {
         {
             _id?: string;
             name: string;
-            widgetType: 'radio' | 'switch';
+            widgetType?: 'radio' | 'switch';
             availableOptions: string[];
             defaultValue: string | boolean;
         },
