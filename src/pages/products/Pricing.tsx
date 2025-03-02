@@ -3,9 +3,8 @@ import { Category } from '../../types';
 
 export default function Pricing({ category }: { category: Category | null }) {
     if (!category) return;
-
     return (
-        <Card title="Product Price" className="mt-4">
+        <Card title="Product Price" className="mt-4 mb-4">
             {Object.entries(category.priceConfiguration).map(([key, value]) => (
                 <div key={key}>
                     <div className="flex-col flex my-2  w-fit">
@@ -16,7 +15,7 @@ export default function Pricing({ category }: { category: Category | null }) {
                             <div key={options}>
                                 <Form.Item
                                     name={[
-                                        'priceConfig',
+                                        'priceConfguration',
                                         JSON.stringify({ key, priceType: value.priceType }),
                                         options,
                                     ]}

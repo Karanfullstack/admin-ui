@@ -13,6 +13,7 @@ import {
     Typography,
     Upload,
 } from 'antd';
+
 import { ACTIONS } from '../../consts';
 import { DispatchProps } from '../../reducers/updateReducer';
 import useCategories from '../../hooks/useCategories';
@@ -20,6 +21,7 @@ import useTenants from '../../hooks/useTenants';
 import { Tenant } from '../../types';
 import Pricing from './Pricing';
 import Attributes from './attributes';
+import { ProductData } from './helper';
 
 export default function ProductForm({ state, dispatch }: DispatchProps) {
     const [form] = Form.useForm();
@@ -27,12 +29,15 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
     const { data: restaurants } = useTenants();
     const categoryID = Form.useWatch('categoryId', form);
 
+    // fetch category on selected category id
     const pricingCategoryAttributes = categoryID
         ? categories?.data.find((category) => category._id === categoryID)
         : null;
 
+    // handling form submission
     const handleSubmit = () => {
-        console.log(form.getFieldsValue());
+        const result = ProductData(form);
+        console.log(result)
     };
     return (
         <>
@@ -178,7 +183,11 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
 
                             {/* Publish attribute */}
                             <Card title="Additional attributes" bordered={false} className="mt-4">
-                                <Form.Item name="isPublish" valuePropName="checked">
+                                <Form.Item
+                                    name="isPublish"
+                                    initialValue={false}
+                                    valuePropName="checked"
+                                >
                                     <Switch
                                         defaultChecked
                                         checkedChildren="Yes"
