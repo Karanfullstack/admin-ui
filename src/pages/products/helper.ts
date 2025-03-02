@@ -19,13 +19,11 @@ export const ProductData = (form: FormInstance) => {
             },
         };
     }, {});
-
     const postData = {
         ...form.getFieldsValue(),
         priceConfiguration,
         attributes,
     };
-
     const newFormData = new FormData();
 
     Object.entries(postData).forEach(([key, value]) => {
@@ -41,5 +39,5 @@ export const ProductData = (form: FormInstance) => {
     for (const value of newFormData.values()) {
         console.log(value);
     }
-    return newFormData;
+    return newFormData as FormData;
 };

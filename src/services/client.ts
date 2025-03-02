@@ -4,10 +4,15 @@ import { useAuthStore } from '../store';
 export const client = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_API_URL,
     withCredentials: true,
-    headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-    },
+});
+
+client.interceptors.request.use((config) => {
+    if (config.data instanceof FormData) {
+        config.headers['Content-Type'] = 'multipart/form-data';
+    } else {
+        config.headers['Content-Type'] = 'application/json';
+    }
+    return config;
 });
 
 const refreshToken = async () => {
@@ -16,7 +21,7 @@ const refreshToken = async () => {
         {},
         {
             withCredentials: true,
-        }
+        },
     );
 };
 
@@ -36,5 +41,5 @@ client.interceptors.response.use(
             }
         }
         return Promise.reject(error);
-    }
+    },
 );

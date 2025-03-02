@@ -1,32 +1,22 @@
 import { PlusOutlined } from '@ant-design/icons';
-import {
-    Button,
-    Card,
-    Col,
-    Drawer,
-    Form,
-    Input,
-    Row,
-    Select,
-    Space,
-    Switch,
-    Typography,
-    Upload,
-} from 'antd';
+import { Button, Card, Col, Drawer, Form, Input, Row, Select, Space, Switch } from 'antd';
 
 import { ACTIONS } from '../../consts';
 import { DispatchProps } from '../../reducers/updateReducer';
 import useCategories from '../../hooks/useCategories';
 import useTenants from '../../hooks/useTenants';
-import { Tenant } from '../../types';
 import Pricing from './Pricing';
 import Attributes from './attributes';
+import { Product, Tenant } from '../../types';
+import ImageUploader from './ImageUploader';
 import { ProductData } from './helper';
+import useAddProduct from '../../hooks/addProduct';
 
 export default function ProductForm({ state, dispatch }: DispatchProps) {
     const [form] = Form.useForm();
     const { data: categories } = useCategories();
     const { data: restaurants } = useTenants();
+    const { mutateAsync, isPending } = useAddProduct();
     const categoryID = Form.useWatch('categoryId', form);
 
     // fetch category on selected category id
@@ -35,9 +25,17 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
         : null;
 
     // handling form submission
-    const handleSubmit = () => {
-        const result = ProductData(form);
-        console.log(result)
+    const handleSubmit = async () => {
+        await form.validateFields();
+        const data = ProductData(form);
+        await mutateAsync(data as unknown as Product);
+        if (!isPending) {
+            dispatch({
+                type: ACTIONS.SET_OPEN,
+                payload: false,
+            });
+            form.resetFields();
+        }
     };
     return (
         <>
@@ -67,7 +65,7 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
                 width={600}
                 extra={[
                     <Space key={'actions'}>
-                        <Button onClick={handleSubmit} type="primary">
+                        <Button loading={isPending} onClick={handleSubmit} type="primary">
                             Save
                         </Button>
                         <Button
@@ -147,17 +145,7 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
                             </Card>
                             {/* image upload */}
                             <Card title="Product Image" bordered={false} className="mt-4">
-                                <Form.Item
-                                    name="image"
-                                    rules={[{ required: true, message: 'Image is required.' }]}
-                                >
-                                    <Upload fileList={[]} listType="picture-card">
-                                        <Space direction="vertical" align="center">
-                                            <PlusOutlined />
-                                            <Typography.Text>Upload</Typography.Text>
-                                        </Space>
-                                    </Upload>
-                                </Form.Item>
+                                <ImageUploader />
                             </Card>
                             {/* Pricing Attributes*/}
                             {pricingCategoryAttributes && (
@@ -169,7 +157,16 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
 
                             {/* Restaurant info */}
                             <Card title="Restaurant info" bordered={false} className="mt-4">
-                                <Form.Item name="tenantId" label="Choose a restaurant">
+                                <Form.Item
+                                    name="tenantId"
+                                    label="Choose a restaurant"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Restaurant is required.',
+                                        },
+                                    ]}
+                                >
                                     <Select
                                         allowClear
                                         placeholder="Restaurants"
