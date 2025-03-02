@@ -15,7 +15,7 @@ export default function Pricing({ category }: { category: Category | null }) {
                             <div key={options}>
                                 <Form.Item
                                     name={[
-                                        'priceConfguration',
+                                        'priceConfiguration',
                                         JSON.stringify({ key, priceType: value.priceType }),
                                         options,
                                     ]}
