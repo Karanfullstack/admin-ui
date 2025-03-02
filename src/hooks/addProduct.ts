@@ -22,13 +22,13 @@ export default function useAddProduct() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: [Cache_Keys.TENANTS],
+                queryKey: [Cache_Keys.PRODUCTS],
             });
         },
         onError: (_error, _newUser, context) => {
             console.log(_error);
             if (!context) return;
-            queryClient.setQueryData<Product[]>([Cache_Keys.TENANTS], context.previousUsers);
+            queryClient.setQueryData<Product[]>([Cache_Keys.PRODUCTS], context.previousUsers);
         },
     });
 }

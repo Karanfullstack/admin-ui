@@ -11,11 +11,14 @@ import { Product, Tenant } from '../../types';
 import ImageUploader from './ImageUploader';
 import { ProductData } from './helper';
 import useAddProduct from '../../hooks/addProduct';
+import { useAuthStore } from '../../store';
 
 export default function ProductForm({ state, dispatch }: DispatchProps) {
     const [form] = Form.useForm();
     const { data: categories } = useCategories();
     const { data: restaurants } = useTenants();
+    const user = useAuthStore((state) => state.user);
+    console.log(user?.tenant?.id);
     const { mutateAsync, isPending } = useAddProduct();
     const categoryID = Form.useWatch('categoryId', form);
 
@@ -28,6 +31,9 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
     const handleSubmit = async () => {
         await form.validateFields();
         const data = ProductData(form);
+        if (user && user?.role !== 'admin') {
+            data.append('tenantId', String(user.tenant?.id));
+        }
         await mutateAsync(data as unknown as Product);
         if (!isPending) {
             dispatch({
@@ -156,27 +162,29 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
                             )}
 
                             {/* Restaurant info */}
-                            <Card title="Restaurant info" bordered={false} className="mt-4">
-                                <Form.Item
-                                    name="tenantId"
-                                    label="Choose a restaurant"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Restaurant is required.',
-                                        },
-                                    ]}
-                                >
-                                    <Select
-                                        allowClear
-                                        placeholder="Restaurants"
-                                        options={restaurants?.data.map((Tenant: Tenant) => ({
-                                            label: Tenant.name,
-                                            value: Tenant.id,
-                                        }))}
-                                    />
-                                </Form.Item>
-                            </Card>
+                            {user?.role === 'admin' && (
+                                <Card title="Restaurant info" bordered={false} className="mt-4">
+                                    <Form.Item
+                                        name="tenantId"
+                                        label="Choose a restaurant"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Restaurant is required.',
+                                            },
+                                        ]}
+                                    >
+                                        <Select
+                                            allowClear
+                                            placeholder="Restaurants"
+                                            options={restaurants?.data.map((Tenant: Tenant) => ({
+                                                label: Tenant.name,
+                                                value: Tenant.id,
+                                            }))}
+                                        />
+                                    </Form.Item>
+                                </Card>
+                            )}
 
                             {/* Publish attribute */}
                             <Card title="Additional attributes" bordered={false} className="mt-4">
