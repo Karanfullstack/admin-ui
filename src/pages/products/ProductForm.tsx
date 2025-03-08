@@ -12,13 +12,14 @@ import ImageUploader from './ImageUploader';
 import { ProductData } from './helper';
 import useAddProduct from '../../hooks/addProduct';
 import { useAuthStore } from '../../store';
+import { useEffect } from 'react';
 
 export default function ProductForm({ state, dispatch }: DispatchProps) {
     const [form] = Form.useForm();
     const { data: categories } = useCategories();
     const { data: restaurants } = useTenants();
     const user = useAuthStore((state) => state.user);
-    console.log(user?.tenant?.id);
+
     const { mutateAsync, isPending } = useAddProduct();
     const categoryID = Form.useWatch('categoryId', form);
 
@@ -27,6 +28,26 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
         ? categories?.data.find((category) => category._id === categoryID)
         : null;
 
+    // update productrs
+    useEffect(() => {
+        if (state.products) {
+            const { priceConfiguration: config, attributes: attr } = state.products;
+            const priceConfiguration = Object.entries(config).reduce((acc, [key, value]) => {
+                const iconfig = JSON.stringify({
+                    key,
+                    priceType: value.priceType,
+                });
+                return { ...acc, [iconfig]: value.avialableOptions };
+            }, {});
+            const attributes = attr.reduce((acc, current) => {
+                return {
+                    ...acc,
+                    [current.name]: current.value,
+                };
+            }, {});
+            form.setFieldsValue({ ...state.products, priceConfiguration, attributes });
+        }
+    }, [form, state.products]);
     // handling form submission
     const handleSubmit = async () => {
         await form.validateFields();
@@ -34,11 +55,12 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
         if (user && user?.role !== 'admin') {
             data.append('tenantId', String(user.tenant?.id));
         }
+
+        console.log(form.getFieldsValue());
         await mutateAsync(data as unknown as Product);
         if (!isPending) {
             dispatch({
-                type: ACTIONS.SET_OPEN,
-                payload: false,
+                type: ACTIONS.SET_CLOSE_NULL,
             });
             form.resetFields();
         }
@@ -151,7 +173,7 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
                             </Card>
                             {/* image upload */}
                             <Card title="Product Image" bordered={false} className="mt-4">
-                                <ImageUploader />
+                                <ImageUploader prevImage={state.products?.image.image || ''} />
                             </Card>
                             {/* Pricing Attributes*/}
                             {pricingCategoryAttributes && (
@@ -179,7 +201,7 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
                                             placeholder="Restaurants"
                                             options={restaurants?.data.map((Tenant: Tenant) => ({
                                                 label: Tenant.name,
-                                                value: Tenant.id,
+                                                value: String(Tenant.id),
                                             }))}
                                         />
                                     </Form.Item>

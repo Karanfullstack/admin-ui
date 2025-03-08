@@ -29,6 +29,7 @@ export default function ProductFilter({ children }: Props) {
             setSearch(searchedValue);
         }, 700);
     }, [setSearch]);
+    
     return (
         <Card size="small" className="mb-4 w-full">
             <Row justify={'space-between'}>

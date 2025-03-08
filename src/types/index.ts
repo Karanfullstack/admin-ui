@@ -69,6 +69,18 @@ export interface Product {
     description: string;
     image: { image: string; public_id: string };
     category: Category;
+    priceConfiguration: {
+        [key: string]: {
+            priceType: string;
+            avialableOptions: {
+                [key: string]: number;
+            };
+        };
+    };
+    attributes: {
+        name: string;
+        value: string | number | boolean;
+    }[];
     isPublish: boolean;
     tenantId: number;
 }

@@ -48,7 +48,7 @@ export const updateReducer = (state: State, action: Action): State => {
         case ACTIONS.SET_PRODUCT:
             return { ...state, products: action.payload };
         case ACTIONS.SET_CLOSE_NULL:
-            return { user: null, tenants: null, isOpen: false };
+            return { user: null, tenants: null, products:null, isOpen: false };
         default:
             return state;
     }
