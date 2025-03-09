@@ -13,13 +13,14 @@ import { ProductData } from './helper';
 import useAddProduct from '../../hooks/addProduct';
 import { useAuthStore } from '../../store';
 import { useEffect } from 'react';
+import useUpdateProduct from '../../hooks/useUpdateProduct';
 
 export default function ProductForm({ state, dispatch }: DispatchProps) {
     const [form] = Form.useForm();
     const { data: categories } = useCategories();
     const { data: restaurants } = useTenants();
     const user = useAuthStore((state) => state.user);
-
+    const { mutateAsync: updateMutate, isPending: updatePending } = useUpdateProduct();
     const { mutateAsync, isPending } = useAddProduct();
     const categoryID = Form.useWatch('categoryId', form);
 
@@ -48,6 +49,7 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
             form.setFieldsValue({ ...state.products, priceConfiguration, attributes });
         }
     }, [form, state.products]);
+    console.log(state.products);
     // handling form submission
     const handleSubmit = async () => {
         await form.validateFields();
@@ -56,7 +58,17 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
             data.append('tenantId', String(user.tenant?.id));
         }
 
-        console.log(form.getFieldsValue());
+        if (state.products) {
+            data.append('_id', state.products._id as string);
+            await updateMutate(data as unknown as Product);
+            if (!updatePending) {
+                dispatch({
+                    type: ACTIONS.SET_CLOSE_NULL,
+                });
+                form.resetFields();
+            }
+            return;
+        }
         await mutateAsync(data as unknown as Product);
         if (!isPending) {
             dispatch({
@@ -88,12 +100,16 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
                     });
                 }}
                 closable
-                title={'Add Product'}
+                title={state.products ? 'Update Product' : 'Add Product'}
                 open={state.isOpen}
                 width={600}
                 extra={[
                     <Space key={'actions'}>
-                        <Button loading={isPending} onClick={handleSubmit} type="primary">
+                        <Button
+                            loading={isPending || updatePending}
+                            onClick={handleSubmit}
+                            type="primary"
+                        >
                             Save
                         </Button>
                         <Button

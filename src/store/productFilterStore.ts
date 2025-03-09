@@ -30,6 +30,6 @@ export const useProductStore = create<ProductFilterStore>()(
         setPagination: (currentPage = 1, perPage = 4) =>
             set((state) => ({ query: { ...state.query, currentPage, perPage } })),
         setPublish: (isPublish: boolean) =>
-            set((state) => ({ query: { ...state.query, isPublish } })),
+            set((state) => ({ query: { ...state.query, currentPage: 1, isPublish } })),
     })),
 );
