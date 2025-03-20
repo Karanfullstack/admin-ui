@@ -86,16 +86,30 @@ export interface Product {
 }
 
 export interface FetchResponse<T> {
-    data: T[];
+    data?: T[];
+    docs?: T[]; // docs is set only for toppings
     total: number;
     perPage: number;
     currentPage: number;
     success: boolean;
+    page?: number;
+    limit?: number;
+    totalDocs?: number;
 }
 
+export interface Topping {
+    name: string;
+    image: { image: string; public_id: string };
+    isPublish: boolean;
+    category: Category;
+    tenantId: number;
+    categoryId: string;
+    _id: string;
+}
 export enum Cache_Keys {
     USERS = 'users',
     TENANTS = 'tenants',
     CATEGORIES = 'categories',
     PRODUCTS = 'products',
+    TOPPINGS = 'toppings',
 }

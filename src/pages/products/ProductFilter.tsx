@@ -15,8 +15,8 @@ export default function ProductFilter({ children }: Props) {
     const { data: restaurants } = useTenants();
     const { data: categories } = useCategories();
     const tenatnStore = useTenantStore((store) => store.setPagination);
-    const { query, setSearch, setCategory, setRestaurant, setPublish } =
-        useProductStore();
+    const { query, setSearch, setCategory, setRestaurant, setPublish } = useProductStore();
+
     const user = useAuthStore((store) => store.user);
     // for reseting the tenants pagination as it conflicts while selecting in products menu
     useEffect(() => {
@@ -29,7 +29,7 @@ export default function ProductFilter({ children }: Props) {
             setSearch(searchedValue);
         }, 700);
     }, [setSearch]);
-    
+
     return (
         <Card size="small" className="mb-4 w-full">
             <Row justify={'space-between'}>
@@ -50,11 +50,8 @@ export default function ProductFilter({ children }: Props) {
                                 placeholder="Categories"
                                 className="w-full"
                             >
-                                {categories?.data.map((category: Category) => (
-                                    <Select.Option
-                                        key={category._id}
-                                        value={category._id}
-                                    >
+                                {categories?.data?.map((category: Category) => (
+                                    <Select.Option key={category._id} value={category._id}>
                                         {category.name}
                                     </Select.Option>
                                 ))}
@@ -69,11 +66,8 @@ export default function ProductFilter({ children }: Props) {
                                     placeholder="Restaurant"
                                     className="w-full"
                                 >
-                                    {restaurants?.data.map((restaurant: Tenant) => (
-                                        <Select.Option
-                                            key={restaurant.id}
-                                            value={restaurant.id}
-                                        >
+                                    {restaurants?.data?.map((restaurant: Tenant) => (
+                                        <Select.Option key={restaurant.id} value={restaurant.id}>
                                             {restaurant.name}
                                         </Select.Option>
                                     ))}

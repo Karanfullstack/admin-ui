@@ -30,7 +30,7 @@ class httpService<T> {
                 .then((res) => res.data);
         }
         return client
-            .put<T>(this.endpoint + '/' + (payload.id ?? payload._id), payload)
+            .patch<T>(this.endpoint + '/' + (payload.id ?? payload._id), payload)
             .then((res) => res.data);
     }
 }

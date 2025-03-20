@@ -1,4 +1,4 @@
-import { DoubleRightOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { DoubleRightOutlined, PlusOutlined } from '@ant-design/icons';
 import { Breadcrumb, Button, Table, Typography } from 'antd';
 import { useReducer } from 'react';
 import { Link } from 'react-router-dom';
@@ -32,9 +32,7 @@ const columns = [
         title: 'Last Name',
         dataIndex: 'lastName',
         key: 'lastName',
-        render: (text: string) => (
-            <Typography.Text className=" capitalize">{text}</Typography.Text>
-        ),
+        render: (text: string) => <Typography.Text className=" capitalize">{text}</Typography.Text>,
     },
     {
         title: 'Email',
@@ -58,9 +56,7 @@ const columns = [
         title: 'Role',
         dataIndex: 'role',
         key: 'role',
-        render: (text: string) => (
-            <Typography.Text className="capitalize">{text}</Typography.Text>
-        ),
+        render: (text: string) => <Typography.Text className="capitalize">{text}</Typography.Text>,
     },
 ];
 
@@ -111,7 +107,6 @@ export default function Users() {
                             render: (_text: string, render: User) => {
                                 return (
                                     <Button
-                                        icon={<EditOutlined />}
                                         onClick={() => {
                                             dispatch({
                                                 type: ACTIONS.SET_USER,
@@ -122,8 +117,11 @@ export default function Users() {
                                                 payload: true,
                                             });
                                         }}
-                                        type="link"
-                                    />
+                                        color="primary"
+                                        variant="solid"
+                                    >
+                                        Update
+                                    </Button>
                                 );
                             },
                         },

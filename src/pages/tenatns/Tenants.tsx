@@ -1,6 +1,6 @@
 import { Breadcrumb, Button, Table, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { DoubleRightOutlined, EditOutlined } from '@ant-design/icons';
+import { DoubleRightOutlined } from '@ant-design/icons';
 import TenantFilter from './TenantFilter';
 import useTenants from '../../hooks/useTenants';
 import { Roles, Tenant } from '../../types';
@@ -83,8 +83,8 @@ export default function Tenants() {
                                                 payload: render,
                                             });
                                         }}
-                                        icon={<EditOutlined />}
-                                        type="link"
+                                        variant="solid"
+                                        color="primary"
                                     >
                                         Edit
                                     </Button>

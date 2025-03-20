@@ -3,15 +3,7 @@ import { Avatar, Badge, Dropdown, Flex, Layout, Menu, theme } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import { ReactNode, useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import {
-    HomeIcon,
-    GiftIcon,
-    Logo,
-    FoodIcon,
-    ProductIcon,
-    SmallLogo,
-    UserIcon,
-} from '../icons';
+import { HomeIcon, GiftIcon, Logo, FoodIcon, ProductIcon, SmallLogo, UserIcon } from '../icons';
 import { useAuthStore } from '../store';
 import useLogout from '../hooks/useLogout';
 import AddressStatus from '../components/AddressStatus';
@@ -36,6 +28,7 @@ const items: MenuItems[] = [
         icon: <Icon component={ProductIcon} />,
         label: <NavLink to="/products">Products</NavLink>,
     },
+
     {
         key: '/promos',
         icon: <Icon component={GiftIcon} />,
@@ -58,6 +51,11 @@ const protectedItems = (role: string) => {
                 key: '/restaurants',
                 icon: <Icon component={FoodIcon} />,
                 label: <NavLink to="/restaurants">Restaurants</NavLink>,
+            },
+            {
+                key: '/toppings',
+                icon: <Icon component={GiftIcon} />,
+                label: <NavLink to="/toppings">Toppings</NavLink>,
             },
         );
         return menus;
@@ -85,9 +83,7 @@ export default function PrivateRoutes() {
         return;
     }
 
-    const address = user.tenant
-        ? user.tenant.name + ' / ' + user.tenant.address
-        : 'Admin';
+    const address = user.tenant ? user.tenant.name + ' / ' + user.tenant.address : 'Admin';
 
     return (
         <>
