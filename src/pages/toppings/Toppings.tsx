@@ -1,11 +1,12 @@
-import { Breadcrumb, Button, Image, Space, Table, Tag, Typography } from 'antd';
-import Filter from './Filter';
+import { Breadcrumb, Image, Space, Table, Tag, Typography } from 'antd';
+import ToppingFilter from './ToppingFilter';
 import { DoubleRightOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import useToppings from '../../hooks/useToppings';
 import { Topping } from '../../types';
 import TenantData from '../products/tenantData';
 import { useToppingFilterStore } from '../../store/toppingFilterStore';
+import ToppingForm from './ToppingForm';
 
 const columns = [
     {
@@ -26,7 +27,7 @@ const columns = [
         title: 'Status',
         dataIndex: 'isPublish',
         key: 'isPublish',
-        render: (text: string, record: Topping) => {
+        render: (_text: string, record: Topping) => {
             const isPublish = record.isPublish ? 'Published' : 'Draft';
             return <Tag color={record.isPublish ? 'green' : 'blue'}>{isPublish}</Tag>;
         },
@@ -61,7 +62,7 @@ const columns = [
 export default function Toppings() {
     const { data, isFetching } = useToppings();
     const setPagination = useToppingFilterStore((sate) => sate.setPagination);
-    console.log(data);
+
     return (
         <>
             <Breadcrumb
@@ -73,9 +74,9 @@ export default function Toppings() {
             />
 
             <div className="pt-3 m-3">
-                <Filter>
-                    <Button>Add</Button>
-                </Filter>
+                <ToppingFilter>
+                    <ToppingForm />
+                </ToppingFilter>
 
                 <Table
                     rowKey={(record: Topping) => record._id}

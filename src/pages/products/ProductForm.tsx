@@ -26,7 +26,7 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
 
     // fetch category on selected category id
     const pricingCategoryAttributes = categoryID
-        ? categories?.data.find((category) => category._id === categoryID)
+        ? categories?.data?.find((category) => category._id === categoryID)
         : null;
 
     // update productrs
@@ -49,7 +49,7 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
             form.setFieldsValue({ ...state.products, priceConfiguration, attributes });
         }
     }, [form, state.products]);
-    console.log(state.products);
+    
     // handling form submission
     const handleSubmit = async () => {
         await form.validateFields();
@@ -161,7 +161,7 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
                                             <Select
                                                 allowClear
                                                 placeholder="Select category"
-                                                options={categories?.data.map((category) => ({
+                                                options={categories?.data?.map((category) => ({
                                                     label: category.name,
                                                     value: category._id,
                                                 }))}
@@ -215,7 +215,7 @@ export default function ProductForm({ state, dispatch }: DispatchProps) {
                                         <Select
                                             allowClear
                                             placeholder="Restaurants"
-                                            options={restaurants?.data.map((Tenant: Tenant) => ({
+                                            options={restaurants?.data?.map((Tenant: Tenant) => ({
                                                 label: Tenant.name,
                                                 value: String(Tenant.id),
                                             }))}

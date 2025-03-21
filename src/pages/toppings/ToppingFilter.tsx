@@ -6,7 +6,7 @@ import useCategories from '../../hooks/useCategories';
 import { Category, Tenant } from '../../types';
 import useTenants from '../../hooks/useTenants';
 
-export default function Filter({ children }: { children: ReactNode }) {
+export default function ToppingFilter({ children }: { children: ReactNode }) {
     const setSearch = useToppingFilterStore((state) => state.setSearch);
     const category = useToppingFilterStore((state) => state.query.category);
     const restaurant = useToppingFilterStore((state) => state.query.restaurant);
@@ -21,6 +21,7 @@ export default function Filter({ children }: { children: ReactNode }) {
             setSearch(value);
         }, 500);
     }, [setSearch]);
+    
     return (
         <>
             <Card size="small" className="mb-4">
@@ -42,7 +43,7 @@ export default function Filter({ children }: { children: ReactNode }) {
                                     onChange={(value) => setRestaurant(value)}
                                 >
                                     {tenants?.data?.map((tenant: Tenant) => (
-                                        <Select.Option value={tenant.id}>
+                                        <Select.Option key={tenant.id} value={tenant.id}>
                                             <Typography.Text>{tenant.name}</Typography.Text>
                                         </Select.Option>
                                     ))}
@@ -58,7 +59,7 @@ export default function Filter({ children }: { children: ReactNode }) {
                                     className="w-full"
                                 >
                                     {data?.data?.map((category: Category) => (
-                                        <Select.Option value={category._id}>
+                                        <Select.Option key={category._id} value={category._id}>
                                             <Typography.Text>{category.name}</Typography.Text>
                                         </Select.Option>
                                     ))}
