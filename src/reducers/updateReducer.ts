@@ -59,7 +59,7 @@ export const updateReducer = (state: State, action: Action): State => {
         case ACTIONS.SET_TENANT:
             return { ...state, tenants: action.payload };
         case ACTIONS.SET_OPEN:
-            return { isOpen: action.payload };
+            return { ...state, isOpen: action.payload };
         case ACTIONS.SET_PRODUCT:
             return { ...state, products: action.payload };
         case ACTIONS.SET_TOPPING:
