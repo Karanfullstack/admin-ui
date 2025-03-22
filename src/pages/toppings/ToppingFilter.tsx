@@ -5,6 +5,7 @@ import { debounce } from 'lodash';
 import useCategories from '../../hooks/useCategories';
 import { Category, Tenant } from '../../types';
 import useTenants from '../../hooks/useTenants';
+import { useAuthStore } from '../../store';
 
 export default function ToppingFilter({ children }: { children: ReactNode }) {
     const setSearch = useToppingFilterStore((state) => state.setSearch);
@@ -13,7 +14,7 @@ export default function ToppingFilter({ children }: { children: ReactNode }) {
     const setCategory = useToppingFilterStore((state) => state.setCategory);
     const setRestaurant = useToppingFilterStore((state) => state.setRestaurant);
     const setPublish = useToppingFilterStore((state) => state.setPublish);
-
+    const role = useAuthStore((state) => state.user?.role);
     const { data } = useCategories();
     const { data: tenants } = useTenants();
     const deBounced = useMemo(() => {
@@ -21,7 +22,7 @@ export default function ToppingFilter({ children }: { children: ReactNode }) {
             setSearch(value);
         }, 500);
     }, [setSearch]);
-    
+
     return (
         <>
             <Card size="small" className="mb-4">
@@ -34,21 +35,23 @@ export default function ToppingFilter({ children }: { children: ReactNode }) {
                                     placeholder="Search Restaurants"
                                 />
                             </Col>
-                            <Col className="w-full" span={5}>
-                                <Select
-                                    defaultValue={restaurant}
-                                    placeholder="Restaurant"
-                                    className="w-full"
-                                    allowClear
-                                    onChange={(value) => setRestaurant(value)}
-                                >
-                                    {tenants?.data?.map((tenant: Tenant) => (
-                                        <Select.Option key={tenant.id} value={tenant.id}>
-                                            <Typography.Text>{tenant.name}</Typography.Text>
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Col>
+                            {role === 'admin' ? (
+                                <Col className="w-full" span={5}>
+                                    <Select
+                                        defaultValue={restaurant}
+                                        placeholder="Restaurant"
+                                        className="w-full"
+                                        allowClear
+                                        onChange={(value) => setRestaurant(value)}
+                                    >
+                                        {tenants?.data?.map((tenant: Tenant) => (
+                                            <Select.Option key={tenant.id} value={tenant.id}>
+                                                <Typography.Text>{tenant.name}</Typography.Text>
+                                            </Select.Option>
+                                        ))}
+                                    </Select>
+                                </Col>
+                            ) : null}
 
                             <Col className="w-full" span={4}>
                                 <Select

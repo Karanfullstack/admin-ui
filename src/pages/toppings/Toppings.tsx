@@ -7,6 +7,8 @@ import { Topping } from '../../types';
 import TenantData from '../products/tenantData';
 import { useToppingFilterStore } from '../../store/toppingFilterStore';
 import ToppingForm from './ToppingForm';
+import { useReducer } from 'react';
+import { updateReducer } from '../../reducers/updateReducer';
 
 const columns = [
     {
@@ -61,6 +63,7 @@ const columns = [
 
 export default function Toppings() {
     const { data, isFetching } = useToppings();
+    const [state, dispatch] = useReducer(updateReducer, { toppings: null, isOpen: false });
     const setPagination = useToppingFilterStore((sate) => sate.setPagination);
 
     return (
@@ -75,7 +78,7 @@ export default function Toppings() {
 
             <div className="pt-3 m-3">
                 <ToppingFilter>
-                    <ToppingForm />
+                    <ToppingForm state={state} dispatch={dispatch} />
                 </ToppingFilter>
 
                 <Table

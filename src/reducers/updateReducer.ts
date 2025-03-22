@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { Product, Tenant, User } from '../types';
+import { Product, Tenant, Topping, User } from '../types';
 import { ACTIONS } from '../consts';
 
 export interface DispatchProps {
@@ -11,6 +11,7 @@ interface State {
     user?: User | null;
     tenants?: Tenant | null;
     products?: Product | null;
+    toppings?: Topping | null;
     isOpen: boolean;
 }
 
@@ -24,6 +25,14 @@ interface ProductAction {
     payload: Product | null;
 }
 
+interface ProductAction {
+    type: ACTIONS.SET_PRODUCT;
+    payload: Product | null;
+}
+interface ToppingAction {
+    type: ACTIONS.SET_TOPPING;
+    payload: Topping | null;
+}
 interface TenantAction {
     type: ACTIONS.SET_TENANT;
     payload: Tenant | null;
@@ -35,7 +44,13 @@ interface OpenAction {
 interface CloseNullAction {
     type: ACTIONS.SET_CLOSE_NULL;
 }
-type Action = OpenAction | UserAction | TenantAction | ProductAction | CloseNullAction;
+type Action =
+    | OpenAction
+    | UserAction
+    | TenantAction
+    | ProductAction
+    | ToppingAction
+    | CloseNullAction;
 
 export const updateReducer = (state: State, action: Action): State => {
     switch (action.type) {
@@ -44,11 +59,13 @@ export const updateReducer = (state: State, action: Action): State => {
         case ACTIONS.SET_TENANT:
             return { ...state, tenants: action.payload };
         case ACTIONS.SET_OPEN:
-            return { ...state, isOpen: action.payload };
+            return { isOpen: action.payload };
         case ACTIONS.SET_PRODUCT:
             return { ...state, products: action.payload };
+        case ACTIONS.SET_TOPPING:
+            return { ...state, toppings: action.payload };
         case ACTIONS.SET_CLOSE_NULL:
-            return { user: null, tenants: null, products:null, isOpen: false };
+            return { user: null, tenants: null, products: null, toppings: null, isOpen: false };
         default:
             return state;
     }

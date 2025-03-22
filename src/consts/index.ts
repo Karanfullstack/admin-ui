@@ -8,4 +8,5 @@ export enum ACTIONS {
     SET_OPEN = 'SET_OPEN',
     SET_CLOSE_NULL = 'CLOSE_NULL',
     SET_PRODUCT = 'SET_PRODUCT',
+    SET_TOPPING = 'SET_TOPPING',
 }
