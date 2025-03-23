@@ -1,5 +1,5 @@
 import { DoubleRightOutlined } from '@ant-design/icons';
-import { Breadcrumb, Image, Space, Table, Tag, Typography } from 'antd';
+import { Breadcrumb, Button, Image, Space, Table, Tag, Typography } from 'antd';
 import { useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import useToppings from '../../hooks/useToppings';
@@ -10,6 +10,7 @@ import TenantData from '../products/tenantData';
 import RemoveButton from './RemoveButton';
 import ToppingFilter from './ToppingFilter';
 import ToppingForm from './ToppingForm';
+import { ACTIONS } from '../../consts';
 
 const columns = [
     {
@@ -93,6 +94,33 @@ export default function Toppings() {
                             key: 'remove',
                             render: (_text: string, record: Topping) => {
                                 return <RemoveButton topping={record} />;
+                            },
+                        },
+
+                        {
+                            title: 'Update',
+                            dataIndex: 'update',
+                            key: 'update',
+                            render: (_text: string, record: Topping) => {
+                                return (
+                                    <Button
+                                        className="bg-red-400 hover:!bg-red-400"
+                                        onClick={() => {
+                                            dispatch({
+                                                type: ACTIONS.SET_TOPPING,
+                                                payload: record,
+                                            });
+                                            dispatch({
+                                                type: ACTIONS.SET_OPEN,
+                                                payload: true,
+                                            });
+                                        }}
+                                    >
+                                        <Typography.Text className="text-white">
+                                            Update
+                                        </Typography.Text>
+                                    </Button>
+                                );
                             },
                         },
                     ]}

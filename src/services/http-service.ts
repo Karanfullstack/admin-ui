@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { client } from './client';
-import { FetchResponse, Product } from '../types';
+import { FetchResponse } from '../types';
 
 interface Entity {
     id?: number;
@@ -23,12 +23,13 @@ class httpService<T> {
     }
     update<T extends Entity>(payload: T) {
         if (payload instanceof FormData) {
-            const product = Object.fromEntries(payload) as unknown as Product;
-            console.log(product);
+            const product = Object.fromEntries(payload) as unknown as T;
+            console.log('putdata', product);
             return client
                 .put<T>(this.endpoint + '/' + product._id, payload)
                 .then((res) => res.data);
         }
+
         return client
             .patch<T>(this.endpoint + '/' + (payload.id ?? payload._id), payload)
             .then((res) => res.data);

@@ -4,38 +4,42 @@ import ImageUploader from '../products/ImageUploader';
 import useCategories from '../../hooks/useCategories';
 import { DispatchProps } from '../../reducers/updateReducer';
 import { ACTIONS } from '../../consts';
-import { useEffect, useState } from 'react';
 import useAddTopping from '../../hooks/addTopping';
 import { Topping } from '../../types';
 import { useAuthStore } from '../../store';
+import { ExtractForm } from './helper';
+import useUpdateTopping from '../../hooks/useUpdateTopping';
+import { useEffect } from 'react';
 
 export default function ToppingForm({ state, dispatch }: DispatchProps) {
     const { data } = useTenants();
     const user = useAuthStore((state) => state.user);
-    console.log(user);
     const addTopping = useAddTopping();
+    const updateTopping = useUpdateTopping();
     const [form] = Form.useForm();
-    const [isSubmitable, setIsSubmitable] = useState<boolean>(false);
     const { data: categories } = useCategories();
-    const values = Form.useWatch([], form);
 
     useEffect(() => {
-        setIsSubmitable(false);
-        form.validateFields({ validateOnly: true })
-            .then(() => setIsSubmitable(true))
-            .catch(() => setIsSubmitable(false));
-    }, [values, form, setIsSubmitable]);
+        if (state.toppings) {
+            const sevalues = state.toppings;
+            form.setFieldsValue({ ...sevalues, tenantId: String(state.toppings.tenantId) });
+        }
+    }, [state.toppings, form]);
 
     const addToppingHandle = async () => {
-        const data = new FormData();
-        const tenantId = form.getFieldValue('tenantId');
-        data.append('name', form.getFieldValue('name'));
-        data.append('price', form.getFieldValue('price'));
-        data.append('categoryId', form.getFieldValue('categoryId'));
-        data.append('isPublish', form.getFieldValue('isPublish') || false);
-        data.append('image', (form.getFieldValue('image') as { file: File }).file);
-        data.append('tenantId', tenantId || String(user?.tenant?.id));
-        await addTopping.mutateAsync(data as unknown as Topping);
+        await form.validateFields();
+        const values = ['name', 'categoryId', 'image', 'tenantId', 'price', 'isPublish'];
+        const payload = ExtractForm(form, values, user!);
+        if (state.toppings) {
+            payload.append('_id', state.toppings._id);
+            await updateTopping.mutateAsync(payload as unknown as Topping);
+            dispatch({
+                type: ACTIONS.SET_CLOSE_NULL,
+            });
+            form.resetFields();
+            return;
+        }
+        await addTopping.mutateAsync(payload as unknown as Topping);
         dispatch({
             type: ACTIONS.SET_CLOSE_NULL,
         });
@@ -55,6 +59,7 @@ export default function ToppingForm({ state, dispatch }: DispatchProps) {
                 Add
             </Button>
             <Modal
+                title={state.toppings ? 'Update Topping' : 'Add Topping'}
                 destroyOnClose
                 onCancel={() => {
                     dispatch({
@@ -66,12 +71,11 @@ export default function ToppingForm({ state, dispatch }: DispatchProps) {
                 footer={(_, { CancelBtn }) => (
                     <>
                         <Button
-                            loading={addTopping.isPending}
-                            disabled={!isSubmitable}
+                            loading={addTopping.isPending || updateTopping.isPending}
                             type="primary"
                             onClick={addToppingHandle}
                         >
-                            Save
+                            {state.toppings ? 'Update' : 'Save'}
                         </Button>
                         <CancelBtn />
                     </>
@@ -96,7 +100,10 @@ export default function ToppingForm({ state, dispatch }: DispatchProps) {
                                 >
                                     <Select placeholder="Restaurant">
                                         {data?.data?.map((tenant) => (
-                                            <Select.Option key={tenant.id} value={tenant.id}>
+                                            <Select.Option
+                                                key={tenant.id}
+                                                value={String(tenant.id)}
+                                            >
                                                 {tenant.name}
                                             </Select.Option>
                                         ))}
@@ -161,7 +168,9 @@ export default function ToppingForm({ state, dispatch }: DispatchProps) {
                                     ]}
                                     name="image"
                                 >
-                                    <ImageUploader prevImage="" />
+                                    <ImageUploader
+                                        prevImage={state?.toppings?.image?.image || ''}
+                                    />
                                 </Form.Item>
                             </Card>
                             <Form.Item name="isPublish" label="Publish">
