@@ -3,32 +3,33 @@ import httpService from '../services/http-service';
 import { Cache_Keys, Product } from '../types';
 
 interface ProductContext {
-    previousUsers: Product[];
+    previousProducts: Product[];
 }
 const service = new httpService<Product>('/api/catalog/product');
 
-export default function useAddProduct() {
+export default function useUpdateAddProduct() {
     const queryClient = useQueryClient();
     return useMutation<Product, Error, Product, ProductContext>({
-        mutationFn: service.create.bind(service),
-        onMutate: (newTenant: Product) => {
-            const previousUsers = queryClient.getQueryData<Product[]>([Cache_Keys.PRODUCTS]) || [];
+        mutationFn: service.update.bind(service),
+        onMutate: (newProduct: Product) => {
+            const previousProducts =
+                queryClient.getQueryData<Product[]>([Cache_Keys.PRODUCTS]) || [];
             queryClient.setQueryData<Product[]>([Cache_Keys.PRODUCTS], (products = []) => [
-                newTenant,
+                newProduct,
                 ...products,
             ]);
 
-            return { previousUsers };
+            return { previousProducts };
         },
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: [Cache_Keys.PRODUCTS],
             });
         },
-        onError: (_error, _newUser, context) => {
+        onError: (_error, _newProduct, context) => {
             console.log(_error);
             if (!context) return;
-            queryClient.setQueryData<Product[]>([Cache_Keys.PRODUCTS], context.previousUsers);
+            queryClient.setQueryData<Product[]>([Cache_Keys.PRODUCTS], context.previousProducts);
         },
     });
 }

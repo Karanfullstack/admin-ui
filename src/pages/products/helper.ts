@@ -36,8 +36,5 @@ export const ProductData = (form: FormInstance) => {
         }
     });
 
-    for (const value of newFormData.values()) {
-        console.log(value);
-    }
     return newFormData as FormData;
 };

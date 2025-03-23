@@ -1,5 +1,5 @@
 import { DoubleRightOutlined } from '@ant-design/icons';
-import { Breadcrumb, Image, Space, Table, Tag, Typography } from 'antd';
+import { Breadcrumb, Button, Image, Space, Table, Tag, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import useProducts from '../../hooks/useProducts';
 import ProductFilter from './ProductFilter';
@@ -9,6 +9,7 @@ import { useProductStore } from '../../store/productFilterStore';
 import ProductForm from './ProductForm';
 import { useReducer } from 'react';
 import { updateReducer } from '../../reducers/updateReducer';
+import { ACTIONS } from '../../consts';
 
 const columns = [
     {
@@ -87,7 +88,32 @@ export default function Products() {
                 <Table
                     loading={isFetching}
                     size="small"
-                    columns={columns}
+                    columns={[
+                        ...columns,
+                        {
+                            title: 'Edit',
+                            dataIndex: 'edit',
+                            key: 'edit',
+                            render: (_text: string, record: Product) => (
+                                <Button
+                                    onClick={() => {
+                                        dispatch({
+                                            type: ACTIONS.SET_PRODUCT,
+                                            payload: record,
+                                        });
+                                        dispatch({
+                                            type: ACTIONS.SET_OPEN,
+                                            payload: true,
+                                        });
+                                    }}
+                                    color="primary"
+                                    variant="solid"
+                                >
+                                    Edit
+                                </Button>
+                            ),
+                        },
+                    ]}
                     rowKey={(record: Product) => record._id!}
                     dataSource={products?.data}
                     pagination={{

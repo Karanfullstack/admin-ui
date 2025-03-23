@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-interface ProductQuryFilter {
+interface ToppingFilterQuery {
     searchText?: string;
     perPage?: number;
     currentPage?: number;
@@ -10,8 +10,8 @@ interface ProductQuryFilter {
     isPublish?: boolean;
 }
 
-interface ProductFilterStore {
-    query: ProductQuryFilter;
+interface ToppingFilterStore {
+    query: ToppingFilterQuery;
     setSearch: (searchText: string) => void;
     setCategory: (category: string) => void;
     setPagination: (currentPage: number, perPage: number) => void;
@@ -19,7 +19,7 @@ interface ProductFilterStore {
     setPublish: (isPublish: boolean) => void;
 }
 
-export const useProductStore = create<ProductFilterStore>()(
+export const useToppingFilterStore = create<ToppingFilterStore>()(
     devtools((set) => ({
         query: {},
         setSearch: (searchText: string) => set(() => ({ query: { searchText } })),
