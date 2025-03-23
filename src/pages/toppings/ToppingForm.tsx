@@ -39,6 +39,7 @@ export default function ToppingForm({ state, dispatch }: DispatchProps) {
         dispatch({
             type: ACTIONS.SET_CLOSE_NULL,
         });
+        form.resetFields();
     };
     return (
         <>

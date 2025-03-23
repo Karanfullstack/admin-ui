@@ -15,8 +15,8 @@ class httpService<T> {
     getOne() {
         return client.get<T>(this.endpoint).then((res) => res.data);
     }
-    delete(id: number) {
-        return client.delete(this.endpoint + id);
+    delete(id: number | string) {
+        return client.delete(this.endpoint + '/' + id);
     }
     create(payload: T) {
         return client.post<T>(this.endpoint, payload).then((res) => res.data);

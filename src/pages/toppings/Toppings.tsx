@@ -1,14 +1,15 @@
-import { Breadcrumb, Image, Space, Table, Tag, Typography } from 'antd';
-import ToppingFilter from './ToppingFilter';
 import { DoubleRightOutlined } from '@ant-design/icons';
+import { Breadcrumb, Image, Space, Table, Tag, Typography } from 'antd';
+import { useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import useToppings from '../../hooks/useToppings';
+import { updateReducer } from '../../reducers/updateReducer';
+import { useToppingFilterStore } from '../../store/toppingFilterStore';
 import { Topping } from '../../types';
 import TenantData from '../products/tenantData';
-import { useToppingFilterStore } from '../../store/toppingFilterStore';
+import RemoveButton from './RemoveButton';
+import ToppingFilter from './ToppingFilter';
 import ToppingForm from './ToppingForm';
-import { useReducer } from 'react';
-import { updateReducer } from '../../reducers/updateReducer';
 
 const columns = [
     {
@@ -84,7 +85,17 @@ export default function Toppings() {
                 <Table
                     rowKey={(record: Topping) => record._id}
                     loading={isFetching}
-                    columns={columns}
+                    columns={[
+                        ...columns,
+                        {
+                            title: 'Remove',
+                            dataIndex: 'remove',
+                            key: 'remove',
+                            render: (_text: string, record: Topping) => {
+                                return <RemoveButton topping={record} />;
+                            },
+                        },
+                    ]}
                     dataSource={data?.docs}
                     pagination={{
                         pageSize: data?.limit,
